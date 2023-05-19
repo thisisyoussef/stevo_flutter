@@ -9,5 +9,9 @@ class AppRouter extends $AppRouter {
    /// routes go here     
    AutoRoute(page: HomeRoute.page, initial: true),
    AutoRoute(page: TopicRoute.page),
+    AutoRoute(page: AddMaterialsRoute.page),
    ];    
  }
+
+ //Command to watch for changes in the router.dart file and generate the router.gr.dart file:
+  //flutter packages pub run build_runner watch --delete-conflicting-outputs

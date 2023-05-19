@@ -27,6 +27,19 @@ final appTheme = ThemeData(
   scaffoldBackgroundColor: color5,
   cardColor: color5,
   canvasColor: color5,
+  bottomNavigationBarTheme: 
+  const BottomNavigationBarThemeData(
+    backgroundColor: color1,
+    selectedIconTheme: IconThemeData(
+      color: color5,
+    ),
+    unselectedIconTheme: IconThemeData(
+      color: color3,
+    ),
+    unselectedLabelStyle: TextStyle(
+      color: color3,
+    ),
+  ),
   appBarTheme: const AppBarTheme(
     backgroundColor: color1,
   ),
@@ -35,6 +48,8 @@ final appTheme = ThemeData(
   ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: color1,
+    focusColor: color5,
+    
   ),
   iconTheme: const IconThemeData(
     color: color1,
