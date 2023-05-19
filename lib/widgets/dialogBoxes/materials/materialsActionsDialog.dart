@@ -15,7 +15,6 @@ class MaterialActionsDialogBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
       children: [
         CustomButton(
           icon: Icons.add,
@@ -29,7 +28,6 @@ class MaterialActionsDialogBox extends StatelessWidget {
               },
             );
             //Navigate to the Add Materials Screen
-            context.router.push(AddMaterialsRoute());
           },
         ),
         CustomButton(
@@ -41,9 +39,11 @@ class MaterialActionsDialogBox extends StatelessWidget {
           text: 'Test Yourself',
           icon: Icons.assessment,
           onPressed: () {
-            showDialog(context: context, builder: (BuildContext context) {
-              return CreateAssessmentDialog();
-            });
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return CreateAssessmentDialog();
+                });
           },
         ),
       ],

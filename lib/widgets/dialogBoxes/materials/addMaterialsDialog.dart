@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:stevo_flutter/widgets/dialogBoxes/materials/horizontalImageList.dart';
 
 class AddMaterialsDialog extends StatefulWidget {
-  AddMaterialsDialog({
-    key
-  }) : super(key: key);
+  AddMaterialsDialog({key}) : super(key: key);
 
   @override
   State<AddMaterialsDialog> createState() => _AddMaterialsDialogState();
@@ -16,7 +15,6 @@ class AddMaterialsDialog extends StatefulWidget {
 class _AddMaterialsDialogState extends State<AddMaterialsDialog> {
   bool uploadingText = false;
   List<File> files = [];
-  
 
   @override
   Widget build(BuildContext context) {
@@ -78,11 +76,12 @@ class _AddMaterialsDialogState extends State<AddMaterialsDialog> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton(
-                onPressed: () async{
-                  FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
-                  if(result != null) {
+                onPressed: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles(allowMultiple: true);
+                  if (result != null) {
                     setState(() {
-                                          files = result.paths.map((path) => File(path!)).toList();
+                      files = result.paths.map((path) => File(path!)).toList();
                     });
                   } else {
                     // User canceled the picker
@@ -109,15 +108,18 @@ class _AddMaterialsDialogState extends State<AddMaterialsDialog> {
               child: Container(
                 height: 200,
                 width: double.infinity,
-                color: files.isEmpty? Colors.grey:Colors.transparent,
-                child: files.isEmpty? Center(child: Text('No File Uploaded')):ListView.builder(
-                  itemCount: files.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(files[index].path.split('/').last),
-                    );
-                  },
-                ),
+                color: files.isEmpty ? Colors.grey : Colors.transparent,
+                child: files.isEmpty
+                    ? Center(child: Text('No File Uploaded'))
+                    : //ListView of images in files and a delete button to remove each image:
+                    HorizontalImageList(
+                        listContent: files,
+                        callback: (index) {
+                          setState(() {
+                            files.removeAt(index);
+                          });
+                        },
+                      ),
               ),
             ),
           SizedBox(height: 16),

@@ -6,8 +6,8 @@ import 'package:stevo_flutter/widgets/listCard.dart';
 import 'package:stevo_flutter/widgets/tiles/testListTile.dart';
 
 class HorizontalListPage extends StatefulWidget {
-  HorizontalListPage({super.key, required this.tests});
-  List<Test> tests;
+  HorizontalListPage({super.key, required this.listContent});
+  List<dynamic> listContent;
 
   @override
   _HorizontalListPageState createState() => _HorizontalListPageState();
@@ -17,13 +17,17 @@ class _HorizontalListPageState extends State<HorizontalListPage> {
   final ScrollController _scrollController = ScrollController();
 
   void _scrollToLeft() {
-    _scrollController.animateTo(_scrollController.offset - MediaQuery.of(context).size.width * 0.3,
-        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+    _scrollController.animateTo(
+        _scrollController.offset - MediaQuery.of(context).size.width * 0.3,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut);
   }
 
   void _scrollToRight() {
-    _scrollController.animateTo(_scrollController.offset + MediaQuery.of(context).size.width * 0.3,
-        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+    _scrollController.animateTo(
+        _scrollController.offset + MediaQuery.of(context).size.width * 0.3,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut);
   }
 
   @override
@@ -41,24 +45,26 @@ class _HorizontalListPageState extends State<HorizontalListPage> {
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: widget.tests.length,
+              itemCount: widget.listContent.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListCard(
-                    content: widget.tests.elementAt(index),
-                    child: TestListTile(test: widget.tests.elementAt(index)));
+                    content: widget.listContent.elementAt(index),
+                    child: TestListTile(
+                        test: widget.listContent.elementAt(index)));
               },
             ),
           ),
-          HorizontalListPageButton(direction: "right", onPressed: _scrollToRight),
+          HorizontalListPageButton(
+              direction: "right", onPressed: _scrollToRight),
         ],
       ),
     );
   }
 }
 
-
 class HorizontalListPageButton extends StatelessWidget {
-  HorizontalListPageButton({super.key, required this.direction, required this.onPressed});
+  HorizontalListPageButton(
+      {super.key, required this.direction, required this.onPressed});
   String direction;
   VoidCallback onPressed;
 
@@ -68,9 +74,7 @@ class HorizontalListPageButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.05,
       child: ElevatedButton(
         onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-        ),
-        
+        style: ElevatedButton.styleFrom(),
         child: Icon(
           direction == "left" ? Icons.arrow_left : Icons.arrow_right,
         ),
