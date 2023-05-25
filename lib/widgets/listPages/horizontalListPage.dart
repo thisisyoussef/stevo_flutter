@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stevo_flutter/app_theme.dart';
 import 'package:stevo_flutter/functions/subjectToIcon.dart';
 import 'package:stevo_flutter/models/test.dart';
-import 'package:stevo_flutter/widgets/listCard.dart';
+import 'package:stevo_flutter/widgets/tiles/listCard.dart';
 import 'package:stevo_flutter/widgets/tiles/testListTile.dart';
 
 class HorizontalListPage extends StatefulWidget {

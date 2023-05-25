@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stevo_flutter/widgets/customButton.dart';
+import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 import 'package:stevo_flutter/widgets/listPages/listPage.dart';
 import '../../models/topic.dart';
 
@@ -15,59 +15,90 @@ class TopicsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(child: ListPage(topics: [
-          //Enter placeholder topics here:
-          Topic(title: "Topic 1", description: "English", subject: "Language", difficulty: "hard", id: "1"),
-          Topic(title: "Topic 2", description: "Calculus", subject: "Math", difficulty: "easy", id: "2"),
-          Topic(title: "Topic 3", description: "Physics", subject: "Science", difficulty: "medium", id: "3"),
-          Topic(title: "Topic 4", description: "Description 4", subject: "Subject 4", difficulty: "hard", id: "4"),
-          Topic(title: "Topic 5", description: "Description 5", subject: "Subject 5", difficulty: "easy", id: "5"),
-        ],)),
-        Container(height: 100,
-        child: 
-        //Row of buttons 
-       Row(
-  children: [
-    Expanded(
-      child: CustomButton(
-        text: "View all topics",
-        icon: Icons.list,
-        onPressed: () {
-          print("Tapped on View all topics button");
-          //add navigation to new screen here
-        },
-      ),
-    ), 
-    const SizedBox(width: 10,),
-    Expanded(
-      child: CustomButton(
-        text: "Start a new topic",
-        icon: Icons.add,
-        onPressed: () {
-          print("Tapped on Start a new topic button");
-          //add navigation to new screen here
-        },
-      ),
-    ),
-    const SizedBox(width: 10,),
-    Expanded(
-      child: CustomButton(
-        text: "Find a topic online",
-        icon: Icons.search,
-        onPressed: () {
-          print("Tapped on Find a topic online button");
-          //add navigation to new screen here
-        },
-      ),
-    ),
-  ],
-),
-
-        ),
-      ]
-    );
-    }
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+              child: ListPage(
+            topics: [
+              //Enter placeholder topics here:
+              Topic(
+                  title: "Topic 1",
+                  description: "English",
+                  subject: "Language",
+                  difficulty: "hard",
+                  id: "1"),
+              Topic(
+                  title: "Topic 2",
+                  description: "Calculus",
+                  subject: "Math",
+                  difficulty: "easy",
+                  id: "2"),
+              Topic(
+                  title: "Topic 3",
+                  description: "Physics",
+                  subject: "Science",
+                  difficulty: "medium",
+                  id: "3"),
+              Topic(
+                  title: "Topic 4",
+                  description: "Description 4",
+                  subject: "Subject 4",
+                  difficulty: "hard",
+                  id: "4"),
+              Topic(
+                  title: "Topic 5",
+                  description: "Description 5",
+                  subject: "Subject 5",
+                  difficulty: "easy",
+                  id: "5"),
+            ],
+          )),
+          Container(
+            height: 100,
+            child:
+                //Row of buttons
+                Row(
+              children: [
+                Expanded(
+                  child: CustomButton(
+                    text: "View all topics",
+                    icon: Icons.list,
+                    onPressed: () {
+                      print("Tapped on View all topics button");
+                      //add navigation to new screen here
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: CustomButton(
+                    text: "Start a new topic",
+                    icon: Icons.add,
+                    onPressed: () {
+                      print("Tapped on Start a new topic button");
+                      //add navigation to new screen here
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: CustomButton(
+                    text: "Find a topic online",
+                    icon: Icons.search,
+                    onPressed: () {
+                      print("Tapped on Find a topic online button");
+                      //add navigation to new screen here
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ]);
+  }
 }

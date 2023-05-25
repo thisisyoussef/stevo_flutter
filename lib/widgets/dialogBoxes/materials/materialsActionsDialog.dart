@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/widgets/dialogBoxes/materials/addMaterialsDialog.dart';
 
-import '../../customButton.dart';
+import '../../buttons/customButton.dart';
 import '../assessments/createAssessmentDialog.dart';
 
 class MaterialActionsDialogBox extends StatelessWidget {

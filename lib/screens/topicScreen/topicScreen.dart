@@ -8,10 +8,9 @@ import 'package:stevo_flutter/widgets/dialogBoxes/dialogBox.dart';
 import '../../models/topic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../../widgets/customButton.dart';
+import '../../widgets/buttons/customButton.dart';
 //materialsScreen:
 import './materialsScreens/materialsPage.dart';
-
 
 @RoutePage()
 class TopicScreen extends StatefulWidget {
@@ -25,12 +24,17 @@ class TopicScreen extends StatefulWidget {
 class _TopicScreenState extends State<TopicScreen> {
   int _selectedIndex = 0;
 
-   final List<Widget> _pages = [
+  final List<Widget> _pages = [
     MaterialsPage(),
-    Container(color: Colors.black, height: 100,),
-    Container(color: Colors.blue, height: 300,),
+    Container(
+      color: Colors.black,
+      height: 100,
+    ),
+    Container(
+      color: Colors.blue,
+      height: 300,
+    ),
   ];
-
 
   void _onItemTapped(int index) {
     print("Tapped on item");
@@ -55,21 +59,23 @@ class _TopicScreenState extends State<TopicScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(widget.topic.title),
       ),
-      bottomNavigationBar: 
-      TopicBottomNavBar(selectedIndex: _selectedIndex, onItemTapped: _onItemTapped,),
-      body: 
-      _pages[_selectedIndex],
-       );
+      bottomNavigationBar: TopicBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
+      body: _pages[_selectedIndex],
+    );
   }
 }
 
-
 class TopicBottomNavBar extends StatefulWidget {
-  TopicBottomNavBar({Key? key, required this.selectedIndex, required this.onItemTapped}) : super(key: key);
+  TopicBottomNavBar(
+      {Key? key, required this.selectedIndex, required this.onItemTapped})
+      : super(key: key);
   int selectedIndex;
   final Function(int) onItemTapped;
 
@@ -78,8 +84,6 @@ class TopicBottomNavBar extends StatefulWidget {
 }
 
 class _TopicBottomNavBarState extends State<TopicBottomNavBar> {
-
-
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -105,4 +109,3 @@ class _TopicBottomNavBarState extends State<TopicBottomNavBar> {
     );
   }
 }
-

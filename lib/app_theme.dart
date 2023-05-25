@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 //This is a good practice to follow in general, as it makes it easier to change the color scheme of the app.
 //This is because we only have to change the colors in one place, instead of having to change the colors in multiple places.
 //This also makes it easier to keep track of the colors used in the app.
-//Follow these brand colors for everything. Designate a primary color, secondary color, tertiary color, quaternary color, and quinary color. 
+//Follow these brand colors for everything. Designate a primary color, secondary color, tertiary color, quaternary color, and quinary color.
 //Then, use these colors for everything. That way, the app will have a consistent color scheme and if we want to change the color scheme of the app, we can just change the colors here.
 //#f0ead9
 // #c2454d
@@ -27,8 +27,7 @@ final appTheme = ThemeData(
   scaffoldBackgroundColor: color5,
   cardColor: color5,
   canvasColor: color5,
-  bottomNavigationBarTheme: 
-  const BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: color1,
     selectedIconTheme: IconThemeData(
       color: color5,
@@ -49,12 +48,18 @@ final appTheme = ThemeData(
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: color1,
     focusColor: color5,
-    
   ),
   iconTheme: const IconThemeData(
     color: color1,
   ),
-  
+  switchTheme: SwitchThemeData(
+    thumbColor: MaterialStateProperty.all<Color>(color1),
+    trackColor: MaterialStateProperty.all<Color>(color3),
+    overlayColor: MaterialStateProperty.all<Color>(color4),
+    thumbIcon: MaterialStateProperty.all<Icon>(Icon(Icons.lightbulb)),
+    splashRadius: 10,
+    materialTapTargetSize: MaterialTapTargetSize.padded,
+  ),
   colorScheme: ColorScheme(
     primary: color1,
     primaryContainer: color2,
@@ -70,11 +75,9 @@ final appTheme = ThemeData(
     onError: color5,
     brightness: Brightness.light,
   ),
-
   cardTheme: const CardTheme(
     color: color5,
   ),
-
   primarySwatch: MaterialColor(
     color1.value,
     <int, Color>{
@@ -88,11 +91,8 @@ final appTheme = ThemeData(
       700: color1.withOpacity(0.8),
       800: color1.withOpacity(0.9),
       900: color1.withOpacity(1.0),
-      
     },
   ),
-
-  
   textTheme: const TextTheme(
     bodyMedium: TextStyle(
       color: color1,

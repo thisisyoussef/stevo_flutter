@@ -1,17 +1,3 @@
-//This is meant to be a dialog box that pops up when the user wants to create a new assessment.
-//It should have a button for a quick assessment where the user doesn't have to choose any settings and can just start the assessment.
-//It should also have a button for a custom assessment where the user can choose the settings for the assessment.
-//The dialog box should switch between the two views via a toggle button at the top of the dialog box.
-//The dialog box should also have a button to cancel the creation of the assessment.
-//For the custom assessment, the dialog box should have different types of mechanisms to choose the settings for the assessment.
-//For the number of questions, the user should be able to choose between a slider.
-//For the time limit, the user should be able to choose between a slider.
-//For the difficulty, the user should be able to choose from a dropdown menu.
-//For the materials, the user should be able to choose from a list of checkboxes.
-
-//The dialog box will take in a Topic object to display the name of the topic at the top of the dialog box
-//as well as to display the materials that the user can choose from.
-
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -19,7 +5,10 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:stevo_flutter/router.gr.dart';
-import 'package:stevo_flutter/widgets/customButton.dart';
+import 'package:stevo_flutter/widgets/buttons/customButton.dart';
+
+import '../../../models/test.dart';
+import '../../buttons/difficultyButton.dart';
 
 class CreateAssessmentDialog extends StatefulWidget {
   const CreateAssessmentDialog({
@@ -31,19 +20,26 @@ class CreateAssessmentDialog extends StatefulWidget {
 }
 
 class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
+  TextEditingController _hoursController = TextEditingController();
+  TextEditingController _minutesController = TextEditingController();
+
+  @override
+  void dispose() {
+    _hoursController.dispose();
+    _minutesController.dispose();
+    super.dispose();
+  }
+
   bool isQuickAssessment = true;
   int numberOfQuestions = 10;
-
-  List<Widget> _segmentedControlChildren() => [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('Quick Assessment'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('Custom Assessment'),
-        ),
-      ];
+  bool mcq = true;
+  bool fillInTheBlank = false;
+  bool trueOrFalse = false;
+  bool shortAnswer = false;
+  String assessmentName = '';
+  String? difficulty = 'Easy';
+  int timeLimitHours = 0;
+  int timeLimitMinutes = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +76,11 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                       border: OutlineInputBorder(),
                       labelText: 'Assessment Name',
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        assessmentName = value;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -102,8 +103,12 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                         color: Colors.black,
                       ),
                     ),
-                    value: false,
-                    onChanged: (bool value) {},
+                    value: mcq,
+                    onChanged: (bool value) {
+                      setState(() {
+                        mcq = value;
+                      });
+                    },
                     activeColor: Colors.green,
                   ),
                   SwitchListTile(
@@ -115,8 +120,12 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                         color: Colors.black,
                       ),
                     ),
-                    value: false,
-                    onChanged: (bool value) {},
+                    value: fillInTheBlank,
+                    onChanged: (bool value) {
+                      setState(() {
+                        fillInTheBlank = value;
+                      });
+                    },
                     activeColor: Colors.green,
                   ),
                   SwitchListTile(
@@ -128,8 +137,12 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                         color: Colors.black,
                       ),
                     ),
-                    value: false,
-                    onChanged: (bool value) {},
+                    value: trueOrFalse,
+                    onChanged: (bool value) {
+                      setState(() {
+                        trueOrFalse = value;
+                      });
+                    },
                     activeColor: Colors.green,
                   ),
                   SwitchListTile(
@@ -141,8 +154,12 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                         color: Colors.black,
                       ),
                     ),
-                    value: false,
-                    onChanged: (bool value) {},
+                    value: shortAnswer,
+                    onChanged: (bool value) {
+                      setState(() {
+                        shortAnswer = value;
+                      });
+                    },
                     activeColor: Colors.green,
                   ),
                 ],
@@ -211,11 +228,13 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
               ],
             ),
             SizedBox(height: 30),
+            //Time Picker for the duration of the assessment:
+            //Code:
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Time Limit',
+                  'Duration in Minutes',
                 ),
                 //SizedBox(width: 10),
                 Container(
@@ -226,8 +245,15 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                   child: Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_left),
-                        onPressed: () {},
+                        //should be a minus icon
+                        icon: Icon(Icons.remove),
+                        onPressed: () {
+                          setState(() {
+                            if (timeLimitMinutes > 0) {
+                              timeLimitMinutes--;
+                            }
+                          });
+                        },
                       ),
                       Container(
                         width: 50,
@@ -239,6 +265,9 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                             LengthLimitingTextInputFormatter(2),
                             FilteringTextInputFormatter.allow(RegExp(r'[1-9]')),
                           ],
+                          controller: TextEditingController(
+                            text: timeLimitMinutes.toString(),
+                          ),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(vertical: 10),
@@ -246,8 +275,14 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.arrow_right),
-                        onPressed: () {},
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          setState(() {
+                            if (timeLimitMinutes < 60) {
+                              timeLimitMinutes++;
+                            }
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -257,44 +292,70 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
             SizedBox(height: 30),
             //Dropdown for difficulty of the questions in the assessment (Easy, Medium, Hard):
             //Code:
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Difficulty',
-                ),
-                //SizedBox(width: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(children: [
-                    DropdownButton(
-                      value: null,
-                      onChanged: (newValue) {
-                        setState(() {});
+                //Difficulty Text
+                Text('Difficulty'),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    DifficultyButton(
+                      difficulty: "Easy",
+                      onPressed: () {
+                        setState(() {
+                          difficulty = "Easy";
+                        });
                       },
-                      items: <String>['Easy', 'Medium', 'Hard']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                          ),
-                        );
-                      }).toList(),
+                      isSelected: difficulty == "Easy" ? true : false,
                     ),
-                  ]),
-                ),
+                    DifficultyButton(
+                      difficulty: "Medium",
+                      onPressed: () {
+                        setState(() {
+                          difficulty = "Medium";
+                        });
+                      },
+                      isSelected: difficulty == "Medium" ? true : false,
+                    ),
+                    DifficultyButton(
+                      difficulty: "Hard",
+                      onPressed: () {
+                        setState(() {
+                          difficulty = "Hard";
+                        });
+                      },
+                      isSelected: difficulty == "Hard" ? true : false,
+                    ),
+                  ],
+                )
               ],
             ),
             SizedBox(height: 30),
             //Button to create the assessment:
             CustomButton(
-              text: "Create Assessment",
-              onPressed: () {},
-              icon: Icons.add,
+              text: "Start Assessment",
+              onPressed: () {
+                context.router.push(TestOverviewRoute(
+                    test: Test(
+                  name: assessmentName,
+                  id: "1",
+                  /* required String name,
+  required String id,
+  required String subject,
+  required int totalAttempts,
+  required double lastScore,
+  required String difficulty,
+  required int numberOfQuestions,*/
+                  subject: "subject",
+                  totalAttempts: 0,
+                  lastScore: 0,
+                  difficulty: difficulty!,
+                  numberOfQuestions: numberOfQuestions,
+                )));
+              },
+              icon: Icons.play_arrow,
             ),
           ],
         ),

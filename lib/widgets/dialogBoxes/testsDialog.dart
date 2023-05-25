@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stevo_flutter/widgets/customButton.dart';
+import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 import 'package:stevo_flutter/widgets/listPages/horizontalListPage.dart';
 import 'package:stevo_flutter/widgets/listPages/listPage.dart';
 
