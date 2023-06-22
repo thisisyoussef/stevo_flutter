@@ -4,10 +4,14 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
+import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/router.gr.dart';
+import 'package:stevo_flutter/services/assessment.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 
-import '../../../models/test.dart';
+import '../../../models/assessment.dart';
 import '../../buttons/difficultyButton.dart';
 
 class CreateAssessmentDialog extends StatefulWidget {
@@ -40,6 +44,7 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
   String? difficulty = 'Easy';
   int timeLimitHours = 0;
   int timeLimitMinutes = 0;
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +72,13 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                //error message area:
+                Text(
+                  errorMessage,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 //Input for the name of the assessment:
                 SizedBox(width: 16),
                 Container(
@@ -79,6 +91,7 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                     onChanged: (value) {
                       setState(() {
                         assessmentName = value;
+                        print("Assessment name is:" + assessmentName);
                       });
                     },
                   ),
@@ -336,24 +349,33 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
             //Button to create the assessment:
             CustomButton(
               text: "Start Assessment",
-              onPressed: () {
-                context.router.push(TestOverviewRoute(
-                    test: Test(
-                  name: assessmentName,
-                  id: "1",
-                  /* required String name,
-  required String id,
-  required String subject,
-  required int totalAttempts,
-  required double lastScore,
-  required String difficulty,
-  required int numberOfQuestions,*/
-                  subject: "subject",
-                  totalAttempts: 0,
-                  lastScore: 0,
-                  difficulty: difficulty!,
-                  numberOfQuestions: numberOfQuestions,
-                )));
+              onPressed: () async {
+                //start loading
+                context.loaderOverlay.show();
+                var data = await generateAssessment(
+                    assessmentName,
+                    numberOfQuestions,
+                    Provider.of<UserInfo>(context, listen: false)
+                        .currentTopic
+                        .id!);
+                //if data is false, stop loading and show error
+                if (data == false) {
+                  context.loaderOverlay.hide();
+                  //set error message
+                  setState(() {
+                    //Set a user friendly error message
+                    errorMessage =
+                        "There was an error creating the assessment. Please try again.";
+                  });
+                  return;
+                } else {
+                  //if data is not false, stop loading and go to test overview
+                  context.loaderOverlay.hide();
+                  print(data);
+                  Provider.of<UserInfo>(context, listen: false)
+                      .loadTest(data['_id']);
+                  context.router.push(TestOverviewRoute());
+                }
               },
               icon: Icons.play_arrow,
             ),

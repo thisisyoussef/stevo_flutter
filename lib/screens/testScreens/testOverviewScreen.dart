@@ -1,22 +1,16 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stevo_flutter/app_theme.dart';
-import 'package:stevo_flutter/models/test.dart';
+import 'package:stevo_flutter/data/userInfo.dart';
+import 'package:stevo_flutter/models/assessment.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 
 @RoutePage()
 class TestOverviewScreen extends StatelessWidget {
-  TestOverviewScreen({super.key, required Test test});
-  Test test = Test(
-      name: 'name',
-      id: 'id',
-      subject: 'subject',
-      totalAttempts: 0,
-      lastScore: 0,
-      difficulty: 'difficulty',
-      numberOfQuestions: 0);
+  TestOverviewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -84,20 +78,35 @@ class TestOverviewScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(test.name,
+                  Text(
+                      Provider.of<UserInfo>(context, listen: true)
+                          .currentAssessment
+                          .name,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.black)),
-                  Text(test.difficulty,
+                  Text(
+                      Provider.of<UserInfo>(context, listen: true)
+                          .currentAssessment
+                          .difficulty,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: test.difficulty == 'Hard'
+                          color: Provider.of<UserInfo>(context, listen: true)
+                                      .currentAssessment
+                                      .difficulty ==
+                                  'Hard'
                               ? Colors.red
-                              : test.difficulty == 'Medium'
+                              : Provider.of<UserInfo>(context, listen: true)
+                                          .currentAssessment
+                                          .difficulty ==
+                                      'Medium'
                                   ? Colors.orange
-                                  : test.difficulty == 'Easy'
+                                  : Provider.of<UserInfo>(context, listen: true)
+                                              .currentAssessment
+                                              .difficulty ==
+                                          'Easy'
                                       ? Colors.green
                                       : Colors.green))
                 ],
@@ -114,14 +123,32 @@ class TestOverviewScreen extends StatelessWidget {
                   InfoTile(
                       iconData: Icons.question_answer,
                       text: "Number of Questions",
-                      value: "10"),
+                      value: Provider.of<UserInfo>(context, listen: true)
+                          .currentAssessment
+                          .questions
+                          .length
+                          .toString()),
                   SizedBox(
                     height: 10,
                   ),
                   InfoTile(
                       iconData: Icons.assessment,
-                      text: "Total Attempts Allowed",
-                      value: "0"),
+                      text: //Attempts,
+                          Provider.of<UserInfo>(context, listen: true)
+                                      .currentAssessment
+                                      .totalAttempts ==
+                                  0
+                              ? "Attempts"
+                              : "Attempts Remaining",
+                      value: Provider.of<UserInfo>(context, listen: true)
+                                  .currentAssessment
+                                  .totalAttempts ==
+                              0
+                          ? "Unlimited"
+                          : Provider.of<UserInfo>(context, listen: true)
+                              .currentAssessment
+                              .totalAttempts
+                              .toString()),
                 ],
               ),
               SizedBox(
@@ -130,7 +157,7 @@ class TestOverviewScreen extends StatelessWidget {
               CustomButton(
                   text: "Start Test",
                   onPressed: () {
-                    context.router.push(TakingTestRoute(test: test));
+                    context.router.push(TakingTestRoute());
                   },
                   icon: Icons.play_arrow)
             ]),

@@ -3,13 +3,13 @@ import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 
 import '../../app_theme.dart';
 import '../../functions/subjectToIcon.dart';
-import '../../models/test.dart';
+import '../../models/assessment.dart';
 
 class TestListTile extends StatelessWidget {
   TestListTile({super.key, required this.test});
 
   //Take in a test:
-  Test test;
+  Assessment test;
 
   @override
   Widget build(BuildContext context) {

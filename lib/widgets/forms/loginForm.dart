@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/services/profileManagement.dart';
 import 'package:stevo_flutter/widgets/forms/forgotPasswordForm.dart';
@@ -140,9 +141,12 @@ class _LoginFormState extends State<LoginForm> {
               CustomButton(
                 text: "Login",
                 onPressed: () async {
+                  context.loaderOverlay.show();
                   if (await loginUser(email, password)) {
+                    context.loaderOverlay.hide();
                     context.router.push(HomeRoute());
                   } else {
+                    context.loaderOverlay.hide();
                     print("Login failed");
                     setState(() {
                       error =

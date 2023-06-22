@@ -4,9 +4,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/functions/isLoggedIn.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/screens/homeScreen.dart';
+import 'package:stevo_flutter/utils/navigationUtils.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -27,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (await isLoggedIn() == true) {
       // User is logged in, navigate to the home screen
       //Dispose of the animation controller first
-      context.router.replace(HomeRoute());
+      NavigationUtils.replaceAndPushHome(context);
     } else {
       // User is not logged in, navigate to the login screen
       //Dispose of the animation controller first
@@ -60,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen>
       });
     });
     //After 3 seconds, navigate to the home screen
-    Future.delayed(Duration(seconds: 3), () async {
+    Future.delayed(Duration(milliseconds: 1), () async {
       await checkUserLogin();
       //Navigate here
     });

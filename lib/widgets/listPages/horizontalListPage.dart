@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stevo_flutter/app_theme.dart';
 import 'package:stevo_flutter/functions/subjectToIcon.dart';
-import 'package:stevo_flutter/models/test.dart';
+import 'package:stevo_flutter/models/assessment.dart';
 import 'package:stevo_flutter/widgets/tiles/listCard.dart';
 import 'package:stevo_flutter/widgets/tiles/testListTile.dart';
 
@@ -71,7 +71,7 @@ class HorizontalListPageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.05,
+      width: MediaQuery.of(context).size.width * 0.04,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(),

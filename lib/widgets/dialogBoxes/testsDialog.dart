@@ -3,7 +3,7 @@ import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 import 'package:stevo_flutter/widgets/listPages/horizontalListPage.dart';
 import 'package:stevo_flutter/widgets/listPages/listPage.dart';
 
-import '../../models/test.dart';
+import '../../models/assessment.dart';
 
 //This is the content for the "Tests" dialog box in the Home Screen.
 //It is meant to show a horizontal list view of cards with info about tests on them
@@ -24,38 +24,15 @@ class TestsDialog extends StatelessWidget {
           child: HorizontalListPage(
             listContent: [
               //Enter placeholder tests here:
-              Test(
+              Assessment(
                   name: "Test 1",
                   subject: "Language",
                   id: '1',
                   lastScore: 0.88,
                   totalAttempts: 5,
                   numberOfQuestions: 10,
-                  difficulty: "Easy"),
-              Test(
-                  name: "Test 2",
-                  subject: "Math",
-                  id: '2',
-                  lastScore: 0.88,
-                  totalAttempts: 5,
-                  numberOfQuestions: 10,
-                  difficulty: "Easy"),
-              Test(
-                  name: "Test 3",
-                  subject: "Science",
-                  id: '3',
-                  lastScore: 0.88,
-                  totalAttempts: 5,
-                  numberOfQuestions: 10,
-                  difficulty: "Easy"),
-              Test(
-                  name: "Test 4",
-                  subject: "Subject 4",
-                  id: '4',
-                  lastScore: 0.88,
-                  totalAttempts: 5,
-                  numberOfQuestions: 10,
-                  difficulty: "Easy"),
+                  difficulty: "Easy",
+                  questions: []),
             ],
           ),
         ),

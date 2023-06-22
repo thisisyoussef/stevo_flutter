@@ -139,3 +139,72 @@ Future<void> getUserProfile() async {
     final error = jsonDecode(response.body)['error'];
   }
 }
+
+Future<bool> forgotPassword(String email) async {
+  final url = Uri.parse('https://exquizite-prod.herokuapp.com/forgotPassword');
+  final response = await http.post(url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+      }));
+  if (response.statusCode == 200) {
+    // Handle success
+    return true;
+  } else {
+    // Handle error
+    final error = jsonDecode(response.body)['error'];
+    print(error);
+    print(response.statusCode);
+
+    return false;
+  }
+}
+
+Future<bool> checkResetCode(String email, String resetCode) async {
+  final url = Uri.parse('https://exquizite-prod.herokuapp.com/checkResetCode');
+  final response = await http.post(url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'resetCode': resetCode,
+      }));
+  if (response.statusCode == 200) {
+    // Handle success
+    return true;
+  } else {
+    // Handle error
+    final error = jsonDecode(response.body)['error'];
+    print(error);
+    print(response.statusCode);
+
+    return false;
+  }
+}
+
+Future<bool> resetPassword(
+    String email, String resetCode, String newPassword) async {
+  final url = Uri.parse('${Constants.apiUrl}/resetPassword');
+  final response = await http.post(url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'resetCode': resetCode,
+        'email': email,
+        'newPassword': newPassword,
+      }));
+  if (response.statusCode == 200) {
+    // Handle success
+    return true;
+  } else {
+    // Handle error
+    final error = jsonDecode(response.body)['error'];
+    print(error);
+    print(response.statusCode);
+    return false;
+  }
+}

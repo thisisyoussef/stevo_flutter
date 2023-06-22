@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stevo_flutter/app_theme.dart';
+import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/widgets/dialogBoxes/dialogBox.dart';
 
 import '../../models/topic.dart';
@@ -14,8 +16,7 @@ import './materialsScreens/materialsPage.dart';
 
 @RoutePage()
 class TopicScreen extends StatefulWidget {
-  TopicScreen({super.key, required this.topic});
-  Topic topic;
+  TopicScreen({super.key});
 
   @override
   State<TopicScreen> createState() => _TopicScreenState();
@@ -61,7 +62,12 @@ class _TopicScreenState extends State<TopicScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.topic.title),
+        title: Text(
+          Provider.of<UserInfo>(context, listen: false).currentTopic!.name,
+          style: TextStyle(
+            color: appTheme.canvasColor,
+          ),
+        ),
       ),
       bottomNavigationBar: TopicBottomNavBar(
         selectedIndex: _selectedIndex,

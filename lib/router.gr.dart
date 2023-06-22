@@ -10,8 +10,6 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:flutter/material.dart' as _i8;
-import 'package:stevo_flutter/models/test.dart' as _i9;
-import 'package:stevo_flutter/models/topic.dart' as _i10;
 import 'package:stevo_flutter/screens/homeScreen.dart' as _i3;
 import 'package:stevo_flutter/screens/loginScreen.dart' as _i6;
 import 'package:stevo_flutter/screens/splashScreen.dart' as _i5;
@@ -26,23 +24,19 @@ abstract class $AppRouter extends _i7.RootStackRouter {
   @override
   final Map<String, _i7.PageFactory> pagesMap = {
     TakingTestRoute.name: (routeData) {
-      final args = routeData.argsAs<TakingTestRouteArgs>();
+      final args = routeData.argsAs<TakingTestRouteArgs>(
+          orElse: () => const TakingTestRouteArgs());
       return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i1.TakingTestScreen(
-          key: args.key,
-          test: args.test,
-        ),
+        child: _i1.TakingTestScreen(key: args.key),
       );
     },
     TestOverviewRoute.name: (routeData) {
-      final args = routeData.argsAs<TestOverviewRouteArgs>();
+      final args = routeData.argsAs<TestOverviewRouteArgs>(
+          orElse: () => const TestOverviewRouteArgs());
       return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i2.TestOverviewScreen(
-          key: args.key,
-          test: args.test,
-        ),
+        child: _i2.TestOverviewScreen(key: args.key),
       );
     },
     HomeRoute.name: (routeData) {
@@ -52,13 +46,11 @@ abstract class $AppRouter extends _i7.RootStackRouter {
       );
     },
     TopicRoute.name: (routeData) {
-      final args = routeData.argsAs<TopicRouteArgs>();
+      final args = routeData.argsAs<TopicRouteArgs>(
+          orElse: () => const TopicRouteArgs());
       return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.TopicScreen(
-          key: args.key,
-          topic: args.topic,
-        ),
+        child: _i4.TopicScreen(key: args.key),
       );
     },
     SplashRoute.name: (routeData) {
@@ -83,14 +75,10 @@ abstract class $AppRouter extends _i7.RootStackRouter {
 class TakingTestRoute extends _i7.PageRouteInfo<TakingTestRouteArgs> {
   TakingTestRoute({
     _i8.Key? key,
-    required _i9.Test test,
     List<_i7.PageRouteInfo>? children,
   }) : super(
           TakingTestRoute.name,
-          args: TakingTestRouteArgs(
-            key: key,
-            test: test,
-          ),
+          args: TakingTestRouteArgs(key: key),
           initialChildren: children,
         );
 
@@ -101,18 +89,13 @@ class TakingTestRoute extends _i7.PageRouteInfo<TakingTestRouteArgs> {
 }
 
 class TakingTestRouteArgs {
-  const TakingTestRouteArgs({
-    this.key,
-    required this.test,
-  });
+  const TakingTestRouteArgs({this.key});
 
   final _i8.Key? key;
 
-  final _i9.Test test;
-
   @override
   String toString() {
-    return 'TakingTestRouteArgs{key: $key, test: $test}';
+    return 'TakingTestRouteArgs{key: $key}';
   }
 }
 
@@ -121,14 +104,10 @@ class TakingTestRouteArgs {
 class TestOverviewRoute extends _i7.PageRouteInfo<TestOverviewRouteArgs> {
   TestOverviewRoute({
     _i8.Key? key,
-    required _i9.Test test,
     List<_i7.PageRouteInfo>? children,
   }) : super(
           TestOverviewRoute.name,
-          args: TestOverviewRouteArgs(
-            key: key,
-            test: test,
-          ),
+          args: TestOverviewRouteArgs(key: key),
           initialChildren: children,
         );
 
@@ -139,18 +118,13 @@ class TestOverviewRoute extends _i7.PageRouteInfo<TestOverviewRouteArgs> {
 }
 
 class TestOverviewRouteArgs {
-  const TestOverviewRouteArgs({
-    this.key,
-    required this.test,
-  });
+  const TestOverviewRouteArgs({this.key});
 
   final _i8.Key? key;
 
-  final _i9.Test test;
-
   @override
   String toString() {
-    return 'TestOverviewRouteArgs{key: $key, test: $test}';
+    return 'TestOverviewRouteArgs{key: $key}';
   }
 }
 
@@ -173,14 +147,10 @@ class HomeRoute extends _i7.PageRouteInfo<void> {
 class TopicRoute extends _i7.PageRouteInfo<TopicRouteArgs> {
   TopicRoute({
     _i8.Key? key,
-    required _i10.Topic topic,
     List<_i7.PageRouteInfo>? children,
   }) : super(
           TopicRoute.name,
-          args: TopicRouteArgs(
-            key: key,
-            topic: topic,
-          ),
+          args: TopicRouteArgs(key: key),
           initialChildren: children,
         );
 
@@ -191,18 +161,13 @@ class TopicRoute extends _i7.PageRouteInfo<TopicRouteArgs> {
 }
 
 class TopicRouteArgs {
-  const TopicRouteArgs({
-    this.key,
-    required this.topic,
-  });
+  const TopicRouteArgs({this.key});
 
   final _i8.Key? key;
 
-  final _i10.Topic topic;
-
   @override
   String toString() {
-    return 'TopicRouteArgs{key: $key, topic: $topic}';
+    return 'TopicRouteArgs{key: $key}';
   }
 }
 

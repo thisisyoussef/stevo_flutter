@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stevo_flutter/services/profileManagement.dart';
 
 //Save token to shared preferences
 void saveToken(String token) async {
@@ -7,9 +8,9 @@ void saveToken(String token) async {
 }
 
 // Retrieve token from shared preferences
-Future<String?> getToken() async {
+Future<String> getToken() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getString('token');
+  return prefs.getString('token')!;
 }
 
 // Delete token from shared preferences
@@ -58,4 +59,14 @@ void deleteRole() async {
 void saveIsLoggedIn(bool isLoggedIn) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool('isLoggedIn', isLoggedIn);
+}
+
+//All purpose log out function
+void logout() async {
+  logoutUser(await getToken());
+  deleteToken();
+  deleteEmail();
+  deleteRole();
+  saveIsLoggedIn(false);
+  //Call service to log out user from server
 }

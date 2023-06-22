@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/models/question.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
-import '../../models/test.dart';
+import '../../models/assessment.dart';
 import 'package:stevo_flutter/widgets/mcqBox.dart';
 
 @RoutePage()
 class TakingTestScreen extends StatefulWidget {
-  TakingTestScreen({super.key, required this.test});
-
-  final Test test;
+  TakingTestScreen({super.key});
 
   @override
   State<TakingTestScreen> createState() => _TakingTestScreenState();
@@ -20,7 +20,9 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.test.name),
+        title: Text(Provider.of<UserInfo>(context, listen: true)
+            .currentAssessment
+            .name),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -35,7 +37,9 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
                   Container(
                     padding: EdgeInsets.all(20),
                     child: Text(
-                      widget.test.name,
+                      Provider.of<UserInfo>(context, listen: true)
+                          .currentAssessment
+                          .name,
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -61,7 +65,9 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
                                 style: TextStyle(fontSize: 15),
                               ),
                               Text(
-                                widget.test.subject,
+                                Provider.of<UserInfo>(context, listen: true)
+                                    .currentAssessment
+                                    .subject,
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -77,7 +83,9 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
                                 style: TextStyle(fontSize: 15),
                               ),
                               Text(
-                                widget.test.difficulty,
+                                Provider.of<UserInfo>(context, listen: true)
+                                    .currentAssessment
+                                    .difficulty,
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -93,7 +101,11 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
                                 style: TextStyle(fontSize: 15),
                               ),
                               Text(
-                                widget.test.numberOfQuestions.toString(),
+                                Provider.of<UserInfo>(context, listen: true)
+                                    .currentAssessment
+                                    .questions
+                                    .length
+                                    .toString(),
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -109,7 +121,7 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
                                 style: TextStyle(fontSize: 15),
                               ),
                               Text(
-                                "Time Placeholder",
+                                "Placeholder",
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -125,21 +137,31 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 10,
+                itemCount: Provider.of<UserInfo>(context, listen: true)
+                    .currentAssessment
+                    .questions
+                    .length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: MCQBox(
                       question: MCQ(
-                        correctOption: 1,
-                        question: "Question",
-                        id: "1",
-                        options: [
-                          "Option 1",
-                          "Option 2",
-                          "Option 3",
-                          "Option 4",
-                        ],
+                        answer: Provider.of<UserInfo>(context, listen: true)
+                            .currentAssessment
+                            .questions[index]
+                            .answer,
+                        question: Provider.of<UserInfo>(context, listen: true)
+                            .currentAssessment
+                            .questions[index]
+                            .question,
+                        id: Provider.of<UserInfo>(context, listen: true)
+                            .currentAssessment
+                            .questions[index]
+                            .id,
+                        options: Provider.of<UserInfo>(context, listen: true)
+                            .currentAssessment
+                            .questions[index]
+                            .options,
                       ),
                       onUpdate: () {
                         setState(() {});

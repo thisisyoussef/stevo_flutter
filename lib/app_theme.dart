@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 
 //Create custom AppTheme class to store all the colors used in the app and to create a custom theme for the app.
 //This way, if we want to change the color scheme of the app, we can just change the colors here.
@@ -17,6 +18,33 @@ const Color color2 = const Color(0xffc26969);
 const Color color3 = const Color(0xffc38d86);
 const Color color4 = const Color(0xffc4b2a3);
 const Color color5 = const Color(0xfff0ead9);
+
+final defaultPinTheme = PinTheme(
+  width: 56,
+  height: 56,
+  textStyle: TextStyle(
+      fontSize: 20,
+      color: Color.fromRGBO(30, 60, 87, 1),
+      backgroundColor: color4,
+      fontWeight: FontWeight.w600),
+  decoration: BoxDecoration(
+    border: Border.all(
+      color: color2,
+    ),
+    borderRadius: BorderRadius.circular(20),
+  ),
+);
+
+final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+  border: Border.all(color: color1, width: 2),
+  borderRadius: BorderRadius.circular(8),
+);
+
+final submittedPinTheme = defaultPinTheme.copyWith(
+  decoration: defaultPinTheme.decoration?.copyWith(
+    color: color2,
+  ),
+);
 
 final appTheme = ThemeData(
   primaryColor: color1,
