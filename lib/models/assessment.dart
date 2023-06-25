@@ -44,8 +44,16 @@ class Assessment {
         difficulty: json['difficulty'] ?? '',
         numberOfQuestions: json['numberOfQuestions'] ?? 0,
         //Use fromJson method in question.dart to convert json to question:
-        questions: List<MCQ>.from(
-            json['questions'].map((question) => MCQ.fromJson(question))));
+        //questions may be an id not a question, so check if it is a list of questions or a list of ids, and convert accordingly
+        questions: json['questions'] != null
+            ? List<MCQ>.from(json['questions'].map((question) {
+                if (question is String) {
+                  return MCQ.empty();
+                } else {
+                  return MCQ.fromJson(question);
+                }
+              }))
+            : []);
   }
 
   //Convert test to json

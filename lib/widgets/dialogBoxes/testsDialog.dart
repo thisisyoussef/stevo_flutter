@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 import 'package:stevo_flutter/widgets/listPages/horizontalListPage.dart';
 import 'package:stevo_flutter/widgets/listPages/listPage.dart';
@@ -22,18 +24,8 @@ class TestsDialog extends StatelessWidget {
       children: [
         Expanded(
           child: HorizontalListPage(
-            listContent: [
-              //Enter placeholder tests here:
-              Assessment(
-                  name: "Test 1",
-                  subject: "Language",
-                  id: '1',
-                  lastScore: 0.88,
-                  totalAttempts: 5,
-                  numberOfQuestions: 10,
-                  difficulty: "Easy",
-                  questions: []),
-            ],
+            listContent:
+                Provider.of<UserInfo>(context, listen: true).getAssessments,
           ),
         ),
         Container(

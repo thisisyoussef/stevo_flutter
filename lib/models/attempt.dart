@@ -5,12 +5,12 @@ class Attempt {
   String id;
   String assessment;
   String user;
-  List<MCQ>? questions;
+  List<Question>? questions;
   DateTime? startedAt;
   DateTime? completedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
-  int? timeTaken;
+  num? timeTaken;
   int? score;
   int? maxScore;
   String? language;
@@ -57,9 +57,9 @@ class Attempt {
       assessment: json['assessment'],
       user: json['user'],
       questions: json['questions'] != null
-          ? List<MCQ>.from(
+          ? List<Question>.from(
               json['questions'].map(
-                (question) => MCQ.fromJson(question),
+                (question) => Question.fromJson(question),
               ),
             )
           : null,

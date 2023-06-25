@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import '../data/userInfo.dart';
@@ -54,7 +55,23 @@ class NavigationUtils {
     //UserInfo().user = null;
     //getTopics();
     //Use AutoRoute to push to a new screen
+    context.loaderOverlay.show();
     Provider.of<UserInfo>(context, listen: false).loadTopics();
+    Provider.of<UserInfo>(context, listen: false).loadAssessments();
+    context.loaderOverlay.hide();
     await AutoRouter.of(context).replace(HomeRoute());
+  }
+
+  //pushAndLoadTestOverview
+  static Future<void> pushAndLoadTestOverview(
+      BuildContext context, String assessmentId) async {
+    //Update UserInfo Provider
+    //UserInfo().user = null;
+    //getTopics();
+    //Use AutoRoute to push to a new screen
+    context.loaderOverlay.show();
+    Provider.of<UserInfo>(context, listen: false).loadTest(assessmentId);
+    context.loaderOverlay.hide();
+    await AutoRouter.of(context).push(TestOverviewRoute());
   }
 }

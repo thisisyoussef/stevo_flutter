@@ -30,6 +30,18 @@ class _HorizontalListPageState extends State<HorizontalListPage> {
         curve: Curves.easeInOut);
   }
 
+  //scroll to end of list right
+  void _scrollToEnd() {
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+  }
+
+  //scroll to start of list left
+  void _scrollToStart() {
+    _scrollController.animateTo(_scrollController.position.minScrollExtent,
+        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +49,10 @@ class _HorizontalListPageState extends State<HorizontalListPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          HorizontalListPageButton(direction: "left", onPressed: _scrollToLeft),
+          HorizontalListPageButton(
+              direction: "left",
+              onPressed: _scrollToLeft,
+              onHold: _scrollToStart),
           SizedBox(
             height: 210,
             width: MediaQuery.of(context).size.width * 0.34,
@@ -47,6 +62,8 @@ class _HorizontalListPageState extends State<HorizontalListPage> {
               shrinkWrap: true,
               itemCount: widget.listContent.length,
               itemBuilder: (BuildContext context, int index) {
+                //print listcontent details before returning
+                print("Test name is:" + widget.listContent.elementAt(index).id);
                 return ListCard(
                     content: widget.listContent.elementAt(index),
                     child: TestListTile(
@@ -55,7 +72,9 @@ class _HorizontalListPageState extends State<HorizontalListPage> {
             ),
           ),
           HorizontalListPageButton(
-              direction: "right", onPressed: _scrollToRight),
+              direction: "right",
+              onPressed: _scrollToRight,
+              onHold: _scrollToEnd),
         ],
       ),
     );
@@ -63,20 +82,30 @@ class _HorizontalListPageState extends State<HorizontalListPage> {
 }
 
 class HorizontalListPageButton extends StatelessWidget {
-  HorizontalListPageButton(
-      {super.key, required this.direction, required this.onPressed});
-  String direction;
-  VoidCallback onPressed;
+  HorizontalListPageButton({
+    this.key,
+    required this.direction,
+    required this.onPressed,
+    this.onHold,
+  });
+
+  final Key? key;
+  final String direction;
+  final VoidCallback onPressed;
+  final VoidCallback? onHold;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.04,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(),
-        child: Icon(
-          direction == "left" ? Icons.arrow_left : Icons.arrow_right,
+      child: GestureDetector(
+        onLongPress: onHold,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(),
+          child: Icon(
+            direction == "left" ? Icons.arrow_left : Icons.arrow_right,
+          ),
         ),
       ),
     );

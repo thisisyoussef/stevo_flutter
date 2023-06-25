@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:stevo_flutter/app_theme.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
@@ -156,8 +157,25 @@ class TestOverviewScreen extends StatelessWidget {
               ),
               CustomButton(
                   text: "Start Test",
-                  onPressed: () {
-                    context.router.push(TakingTestRoute());
+                  onPressed: () async {
+                    // Provider.of<UserInfo>(context, listen: false)
+                    //     .currentAssessment
+                    //     .questions
+                    //     .shuffle();
+                    //Create attempt from provider
+                    //show loader overlay
+                    context.loaderOverlay.show();
+                    if (await Provider.of<UserInfo>(context, listen: false)
+                        .startAttempt()) {
+                      context.loaderOverlay.hide();
+                      context.router.push(TakingTestRoute());
+                    } else {
+                      context.loaderOverlay.hide();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("You have already attempted this test"),
+                        duration: Duration(seconds: 2),
+                      ));
+                    }
                   },
                   icon: Icons.play_arrow)
             ]),

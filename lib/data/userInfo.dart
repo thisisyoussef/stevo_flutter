@@ -24,20 +24,59 @@ class UserInfo extends ChangeNotifier {
   List<MaterialModel> _materials = [];
   Topic _currentTopic = Topic.empty();
   MaterialModel _currentMaterial = MaterialModel.empty();
+  List<Assessment> _assessments = [];
 
   Assessment currentAssessment = Assessment.empty();
   Attempt currentAttempt = Attempt.empty();
 
+  //load user assessments using myAssessments service
+  loadAssessments() async {
+    print("Loading assessments");
+    _assessments = await getMyAssessments();
+    if (_assessments != false) {
+      print("Assessments loaded");
+      //print assessment names
+      for (var assessment in _assessments) {
+        print(assessment.name);
+      }
+      notifyListeners();
+      return true;
+    } else {
+      print("Error loading assessments");
+      return false;
+    }
+  }
+
+  //assessments getter:
+  List<Assessment> get getAssessments => _assessments;
+
   //create and set attempt
   startAttempt() async {
     currentAttempt = await createAttempt(currentAssessment.id);
-    notifyListeners();
+    if (currentAttempt.id != "") {
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   //load attempt
   loadAttempt(String id) async {
     currentAttempt = await getAttempt(id);
     notifyListeners();
+  }
+
+  //submit attempt
+  submitAssessment(List<List<String>> answers) async {
+    var result = await submitAttempt(currentAttempt.id, answers);
+    if (result != false) {
+      currentAttempt = result;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   //load test from id

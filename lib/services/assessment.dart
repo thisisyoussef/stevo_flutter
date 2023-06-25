@@ -16,7 +16,7 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 
 //generateAssessment:
 Future<dynamic> generateAssessment(
-    String name, int numQuestions, String topicId) async {
+    String name, int numQuestions, String difficulty, String topicId) async {
   String? token = await getToken();
   final url = Uri.parse(
       'https://exquizite-prod.herokuapp.com/assessments/generateFromTopic/$topicId');
@@ -28,6 +28,7 @@ Future<dynamic> generateAssessment(
       body: jsonEncode(<String, dynamic>{
         'name': name,
         'numQuestions': numQuestions,
+        'difficulty': difficulty,
       }));
   if (response.statusCode == 200) {
     //get jobid from response and print
@@ -115,10 +116,44 @@ Future<dynamic> getAssessment(String id) async {
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization': 'Bearer $token',
   });
+  try {
+    if (response.statusCode == 200) {
+      //convert the reponse to an assessment object and return it using the fromJson method
+      print(jsonDecode(response.body));
+      return Assessment.fromJson(jsonDecode(response.body));
+      // Handle success
+    } else {
+      // Handle error
+      print(response.body);
+      return false;
+    }
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
+//getmyAssessments:
+Future<dynamic> getMyAssessments() async {
+  print('getMyAssessments called');
+  String token = await getToken();
+  final url = Uri.parse('https://exquizite-prod.herokuapp.com/myAssessments');
+  final response = await http.get(url, headers: <String, String>{
+    'Content-Type': 'application/json; charset=UTF-8',
+    'Authorization': 'Bearer $token',
+  });
   if (response.statusCode == 200) {
-    //convert the reponse to an assessment object and return it using the fromJson method
-    print(jsonDecode(response.body));
-    return Assessment.fromJson(jsonDecode(response.body));
+    print("Got my assessments");
+    //turn the list of assessments into json and return it
+    var assessments = jsonDecode(response.body);
+    print("Ready to return");
+    //print(assessments);
+    //use fromJson to convert the json to a list of assessments
+    List<Assessment> assessmentList = [];
+    for (var assessment in assessments) {
+      assessmentList.add(Assessment.fromJson(assessment));
+    }
+    return assessmentList;
     // Handle success
   } else {
     // Handle error

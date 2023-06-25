@@ -1,9 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
+import 'package:stevo_flutter/data/userInfo.dart';
+import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 
 import '../../app_theme.dart';
 import '../../functions/subjectToIcon.dart';
 import '../../models/assessment.dart';
+import 'package:stevo_flutter/utils/navigationUtils.dart';
 
 class TestListTile extends StatelessWidget {
   TestListTile({super.key, required this.test});
@@ -55,7 +61,7 @@ class TestListTile extends StatelessWidget {
                       size: 30,
                     ),
                     Text("Number of Questions: " +
-                        test.numberOfQuestions.toString()),
+                        test.questions.length.toString()),
                   ],
                 ),
                 SizedBox(
@@ -98,7 +104,12 @@ class TestListTile extends StatelessWidget {
                   flex: 1,
                   child: CustomButton(
                     text: "",
-                    onPressed: () {},
+                    onPressed: () {
+                      print("Tapped on Take Test button");
+                      //load the test into UserInfo and navigate to the test screen
+                      context.loaderOverlay.show();
+                      NavigationUtils.pushAndLoadTestOverview(context, test.id);
+                    },
                     icon: Icons.play_arrow,
                   ),
                 ),

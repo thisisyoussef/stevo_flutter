@@ -355,6 +355,7 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                 var data = await generateAssessment(
                     assessmentName,
                     numberOfQuestions,
+                    difficulty!,
                     Provider.of<UserInfo>(context, listen: false)
                         .currentTopic
                         .id!);

@@ -35,7 +35,11 @@ class _MCQBoxState extends State<MCQBox> {
               onChanged: (value) {
                 setState(() {
                   selectedOption = value;
+                  //get the string value of the selected option
                 });
+                String selectedOptionString =
+                    widget.question.options[selectedOption!];
+                widget.onUpdate(selectedOptionString);
               },
             ),
         ],
