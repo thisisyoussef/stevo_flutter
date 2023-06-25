@@ -2,13 +2,25 @@ class Question {
   String? question;
   String? id;
   String? answer;
+  String? attemptedAnswer;
 
-  Question({required this.question, required this.id, required this.answer});
+  Question(
+      {required this.question,
+      required this.id,
+      required this.answer,
+      this.attemptedAnswer});
 
   //Factory question fromJSON with just question and id and answer
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
-        question: json['question'], id: json['_id'], answer: json['answer']);
+      question: json['question'], id: json['_id'],
+      //check if "correctAnswer" is present, if not, use "answer"
+      answer: json['correctAnswer'] != null
+          ? json['correctAnswer']
+          : json['answer'],
+      //if "correctAnswer" is present, use "answer" as attemptedAnswer
+      attemptedAnswer: json['correctAnswer'] != null ? json['answer'] : null,
+    );
   }
 
   //Convert question to json

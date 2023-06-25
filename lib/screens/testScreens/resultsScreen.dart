@@ -47,20 +47,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
         ),
         child: Column(
           children: [
-            Text(
-              "Overall Score: " +
-                  Provider.of<UserInfo>(context)
-                      .currentAttempt
-                      .score
-                      .toString(),
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 20,
-            ),
             //Display percentage score
             Text(
-              "Percentage Score:${(Provider.of<UserInfo>(context).currentAttempt.score! / Provider.of<UserInfo>(context).currentAttempt.maxScore!.toDouble() * 100).toStringAsFixed(2)}%",
+              "Score:${(Provider.of<UserInfo>(context).currentAttempt.score! / Provider.of<UserInfo>(context).currentAttempt.maxScore!.toDouble() * 100).toStringAsFixed(2)}%",
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(
@@ -81,11 +70,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
                               .question ??
                           ""),
                       subtitle: Text(
-                          "Your answer: ${Provider.of<UserInfo>(context).currentAttempt.questions![index].answer} Correct answer: ${Provider.of<UserInfo>(context).currentAttempt.questions![index].answer}"),
+                          "Your answer: ${Provider.of<UserInfo>(context).currentAttempt.questions![index].attemptedAnswer} Correct answer: ${Provider.of<UserInfo>(context).currentAttempt.questions![index].answer}"),
                       trailing: Provider.of<UserInfo>(context)
                                   .currentAttempt
                                   .questions![index]
-                                  .answer ==
+                                  .attemptedAnswer ==
                               Provider.of<UserInfo>(context)
                                   .currentAttempt
                                   .questions![index]
@@ -95,7 +84,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                       tileColor: Provider.of<UserInfo>(context)
                                   .currentAttempt
                                   .questions![index]
-                                  .answer ==
+                                  .attemptedAnswer ==
                               Provider.of<UserInfo>(context)
                                   .currentAttempt
                                   .questions![index]
