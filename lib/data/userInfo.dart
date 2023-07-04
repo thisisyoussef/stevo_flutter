@@ -30,6 +30,9 @@ class UserInfo extends ChangeNotifier {
   Attempt currentAttempt = Attempt.empty();
   List<Attempt> _attempts = [];
 
+  //attempts getter
+  List<Attempt> get getAttempts => _attempts;
+
   //load attempts
   loadAttempts() async {
     print("Loading attempts");

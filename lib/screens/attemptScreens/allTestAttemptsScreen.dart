@@ -1,7 +1,9 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stevo_flutter/app_theme.dart';
+import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 
 @RoutePage()
@@ -21,14 +23,14 @@ class AllTestAttemptsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Topic Title",
+                  Provider.of<UserInfo>(context).currentTopic.name,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "Test Title",
+                  Provider.of<UserInfo>(context).currentAssessment.name,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -39,18 +41,35 @@ class AllTestAttemptsScreen extends StatelessWidget {
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: Provider.of<UserInfo>(context).getAttempts.length,
                 itemBuilder: (context, index) {
                   return Card(
                     elevation: 2,
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: ListTile(
-                      title: Text("Score: 10/10"),
+                      title: Text("Score: " +
+                          Provider.of<UserInfo>(context)
+                              .getAttempts[index]
+                              .score
+                              .toString() +
+                          "/" +
+                          Provider.of<UserInfo>(context)
+                              .getAttempts[index]
+                              .maxScore
+                              .toString()),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Date Taken: 10/10/2021"),
-                          Text("Time Taken: 10:10"),
+                          Text("Date Taken:" +
+                              Provider.of<UserInfo>(context)
+                                  .getAttempts[index]
+                                  .completedAt
+                                  .toString()),
+                          Text("Time Taken: " +
+                              Provider.of<UserInfo>(context)
+                                  .getAttempts[index]
+                                  .timeTaken
+                                  .toString()),
                         ],
                       ),
                       trailing: IconButton(

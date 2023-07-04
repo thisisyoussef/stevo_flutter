@@ -28,7 +28,7 @@ Future<dynamic> createAttempt(String assessmentId) async {
 Future<dynamic> getAttempt(String id) async {
   String token = await getToken();
   final url = Uri.parse('https://exquizite-prod.herokuapp.com/attempt/$id');
-  final response = await http.post(url, headers: <String, String>{
+  final response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization': 'Bearer $token',
   });
@@ -72,18 +72,19 @@ Future<dynamic> getAttemptsByAssessment(String assessmentId) async {
   String token = await getToken();
   final url =
       Uri.parse('https://exquizite-prod.herokuapp.com/attempts/$assessmentId');
-  final response = await http.post(url, headers: <String, String>{
+  final response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization': 'Bearer $token',
   });
-  if (response.statusCode == 201) {
+  if (response.statusCode == 200) {
     //convert the reponse to an assessment object and return it using the fromJson method
-    print(jsonDecode(response.body));
-    print("It worked!");
-    //turn the json into a list of attempts
-    return jsonDecode(response.body)
-        .map((attempt) => Attempt.fromJson(attempt))
-        .toList();
+    var attempts = jsonDecode(response.body);
+    //turn the json into a list of attempts by iterating through each attempt in attempts
+    List<Attempt> attemptList = [];
+    for (var attempt in attempts) {
+      attemptList.add(Attempt.fromJson(attempt));
+    }
+    return attemptList;
     // Handle success
   } else {
     // Handle error
