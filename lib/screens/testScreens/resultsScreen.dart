@@ -17,120 +17,95 @@ class ResultsScreen extends StatefulWidget {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> {
-  List<dynamic> questions = [];
-  List<dynamic> answers = [];
-  List<dynamic> userAnswers = [];
   @override
   Widget build(BuildContext context) {
+    //A page to display the results of an assessment after submission, loads data from the UserInfo Provider,
+    //shows the overall score and a breakdown of each question and its score, the attempted answer and the actual answer
+    //uses colors to show if the answer was correct or not, uses icons to show if the answer was correct or not,
+    //uses beautiful animations to show the score and the breakdown of each question
+    //uses beutiful widgets with shadows and rounded corners to show the results
     return Scaffold(
       appBar: AppBar(
         title: Text("Results"),
-        centerTitle: true,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(40.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.withOpacity(0.7), Colors.white],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3),
-            ),
-          ],
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          children: [
-            //Display percentage score
-            Text(
-              "Score:${(Provider.of<UserInfo>(context).currentAttempt.score! / Provider.of<UserInfo>(context).currentAttempt.maxScore!.toDouble() * 100).toStringAsFixed(2)}%",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: Provider.of<UserInfo>(context)
-                    .currentAttempt
-                    .questions!
-                    .length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(Provider.of<UserInfo>(context)
-                              .currentAttempt
-                              .questions![index]
-                              .question ??
-                          ""),
-                      subtitle: Text(
-                          "Your answer: ${Provider.of<UserInfo>(context).currentAttempt.questions![index].attemptedAnswer} Correct answer: ${Provider.of<UserInfo>(context).currentAttempt.questions![index].answer}"),
-                      trailing: Provider.of<UserInfo>(context)
-                                  .currentAttempt
-                                  .questions![index]
-                                  .attemptedAnswer ==
-                              Provider.of<UserInfo>(context)
-                                  .currentAttempt
-                                  .questions![index]
-                                  .answer
-                          ? Icon(Icons.check, color: Colors.green)
-                          : Icon(Icons.clear, color: Colors.red),
-                      tileColor: Provider.of<UserInfo>(context)
-                                  .currentAttempt
-                                  .questions![index]
-                                  .attemptedAnswer ==
-                              Provider.of<UserInfo>(context)
-                                  .currentAttempt
-                                  .questions![index]
-                                  .answer
-                          ? Colors.green[50]
-                          : Colors.red[50],
+      body: Consumer<UserInfo>(
+        builder: (context, userInfo, child) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: [
+                  //show the overall score divided by the total score as a percentage
+                  Text(
+                    "Score: ${userInfo.currentAttempt.score}/${userInfo.currentAttempt.maxScore} (${userInfo.currentAttempt.score! / userInfo.currentAttempt.maxScore!.toInt() * 100}%)",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  //show the breakdown of each question and its score, the attempted answer and the actual answer
+                  for (var question in userInfo.currentAttempt.questions!)
+                    Card(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(question.question!),
+                          ),
+                          ListTile(
+                            title: Text(
+                                "Attempted Answer: ${question.attemptedAnswer}"),
+                            trailing:
+                                question.attemptedAnswer == question.answer
+                                    ? Icon(
+                                        Icons.check,
+                                        color: Colors.green,
+                                      )
+                                    : Icon(
+                                        Icons.close,
+                                        color: Colors.red,
+                                      ),
+                          ),
+                          ListTile(
+                            title: Text("Actual Answer: ${question.answer}"),
+                          ),
+                        ],
+                      ),
                     ),
-                  );
-                },
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //Try again button, pushes the test overview page
+                  CustomButton(
+                    text: "Try again",
+                    onPressed: () {
+                      context.router.push(TestOverviewRoute());
+                    },
+                    icon: Icons.refresh,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //Back to topic button, pushes the topic overview page
+                  CustomButton(
+                    text: "Back to topic",
+                    onPressed: () {
+                      context.router.push(TopicRoute());
+                    },
+                    icon: Icons.arrow_back,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //Home button, pushes the home page
+                  CustomButton(
+                    text: "Home",
+                    onPressed: () {
+                      context.router.push(HomeRoute());
+                    },
+                    icon: Icons.home,
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            //Try again button, pushes the test overview page
-            CustomButton(
-              text: "Try again",
-              onPressed: () {
-                context.router.push(TestOverviewRoute());
-              },
-              icon: Icons.refresh,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            //Back to topic button, pushes the topic overview page
-            CustomButton(
-              text: "Back to topic",
-              onPressed: () {
-                context.router.push(TopicRoute());
-              },
-              icon: Icons.arrow_back,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            //Home button, pushes the home page
-            CustomButton(
-              text: "Home",
-              onPressed: () {
-                context.router.push(HomeRoute());
-              },
-              icon: Icons.home,
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

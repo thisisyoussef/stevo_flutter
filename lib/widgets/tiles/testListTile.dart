@@ -120,7 +120,11 @@ class TestListTile extends StatelessWidget {
                   flex: 1,
                   child: CustomButton(
                     text: "",
-                    onPressed: () {},
+                    onPressed: () {
+                      //set current test to this test
+                      NavigationUtils.pushAndSetAttemptsForTest(
+                          context, test, "Topic ID");
+                    },
                     icon: Icons.remove_red_eye,
                   ),
                 ),

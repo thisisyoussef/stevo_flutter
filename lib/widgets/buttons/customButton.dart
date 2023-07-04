@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-//This is a custom button widget that can be used throughout the app. It has a text and an icon. The icon is optional. 
+//This is a custom button widget that can be used throughout the app. It has a text and an icon. The icon is optional.
 //The button has a border radius of 10.0. The button has a height of 50.0. The button has a width of 200.0.
-//The button has a text size of 20.0. The button has a text weight of bold. The button has a text alignment of center. 
-//The button has a border width of 1.0. The button has a shadow color of black. The button has a shadow offset of 0.0. 
-//The button has a shadow blur radius of 10.0. The button has a shadow spread radius of 0.0. 
-//The button has a shadow opacity of 0.0. The button has a margin of 10.0. 
-//The button has a padding of 10.0. The button has a splash color of white. 
-//The button has a splash radius of 10.0. The button has a splash opacity of 0.0. 
-//The button has a shape of RoundedRectangleBorder. The button has an elevation of 0.0. 
-//The button has a highlight elevation of 0.0. The button has an on pressed function that prints "Button Pressed!" to the console and executes the function passed in as an argument. 
+//The button has a text size of 20.0. The button has a text weight of bold. The button has a text alignment of center.
+//The button has a border width of 1.0. The button has a shadow color of black. The button has a shadow offset of 0.0.
+//The button has a shadow blur radius of 10.0. The button has a shadow spread radius of 0.0.
+//The button has a shadow opacity of 0.0. The button has a margin of 10.0.
+//The button has a padding of 10.0. The button has a splash color of white.
+//The button has a splash radius of 10.0. The button has a splash opacity of 0.0.
+//The button has a shape of RoundedRectangleBorder. The button has an elevation of 0.0.
+//The button has a highlight elevation of 0.0. The button has an on pressed function that prints "Button Pressed!" to the console and executes the function passed in as an argument.
 //The function passed in as an argument is optional.
 
 class CustomButton extends StatelessWidget {

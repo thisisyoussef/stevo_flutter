@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:stevo_flutter/models/assessment.dart';
+import 'package:stevo_flutter/models/topic.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import '../data/userInfo.dart';
 import 'package:stevo_flutter/services/topic.dart';
@@ -73,5 +75,19 @@ class NavigationUtils {
     Provider.of<UserInfo>(context, listen: false).loadTest(assessmentId);
     context.loaderOverlay.hide();
     await AutoRouter.of(context).push(TestOverviewRoute());
+  }
+
+  //pushAndSetAttemptsForTest
+  static Future<void> pushAndSetAttemptsForTest(
+      BuildContext context, Assessment assessment, String topicId) async {
+    context.loaderOverlay.show();
+    Provider.of<UserInfo>(context, listen: false).setCurrentTest(assessment);
+    //set current topic
+    Provider.of<UserInfo>(context, listen: false).setCurrentTopicById(topicId);
+    //load attempts
+    await Provider.of<UserInfo>(context, listen: false)
+        .loadAttemptsByAssessmentId(assessment.id);
+    context.loaderOverlay.hide();
+    await AutoRouter.of(context).push(AllTestAttemptsRoute());
   }
 }

@@ -28,6 +28,43 @@ class UserInfo extends ChangeNotifier {
 
   Assessment currentAssessment = Assessment.empty();
   Attempt currentAttempt = Attempt.empty();
+  List<Attempt> _attempts = [];
+
+  //load attempts
+  loadAttempts() async {
+    print("Loading attempts");
+    //_attempts = await getAttempts(currentAssessment.id);
+    if (_attempts != false) {
+      print("Attempts loaded");
+      //print attempt names
+      for (var attempt in _attempts) {
+        print(attempt.id);
+      }
+      notifyListeners();
+      return true;
+    } else {
+      print("Error loading attempts");
+      return false;
+    }
+  }
+
+  //load Attempts by assessment id
+  loadAttemptsByAssessmentId(String id) async {
+    print("Loading attempts");
+    _attempts = await getAttemptsByAssessment(id);
+    if (_attempts != false) {
+      print("Attempts loaded");
+      //print attempt names
+      for (var attempt in _attempts) {
+        print(attempt.id);
+      }
+      notifyListeners();
+      return true;
+    } else {
+      print("Error loading attempts");
+      return false;
+    }
+  }
 
   //load user assessments using myAssessments service
   loadAssessments() async {
@@ -89,7 +126,7 @@ class UserInfo extends ChangeNotifier {
   Assessment get getCurrentTest => currentAssessment;
 
   //set current test
-  set setCurrentTest(Assessment test) {
+  setCurrentTest(Assessment test) {
     currentAssessment = test;
     notifyListeners();
   }
@@ -101,6 +138,17 @@ class UserInfo extends ChangeNotifier {
   setCurrentTopic(Topic topic) {
     _currentTopic = topic;
     notifyListeners();
+  }
+
+  //set Current Topic by id, iterate through topics and set current topic
+  setCurrentTopicById(String id) {
+    for (var topic in _topics) {
+      if (topic.id == id) {
+        _currentTopic = topic;
+        notifyListeners();
+        return;
+      }
+    }
   }
 
   loadTopics() async {

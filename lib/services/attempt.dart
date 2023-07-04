@@ -66,3 +66,29 @@ Future<dynamic> submitAttempt(String id, List<List<String>> answers) async {
     return false;
   }
 }
+
+//getAllAttemptsForAssessment
+Future<dynamic> getAttemptsByAssessment(String assessmentId) async {
+  String token = await getToken();
+  final url =
+      Uri.parse('https://exquizite-prod.herokuapp.com/attempts/$assessmentId');
+  final response = await http.post(url, headers: <String, String>{
+    'Content-Type': 'application/json; charset=UTF-8',
+    'Authorization': 'Bearer $token',
+  });
+  if (response.statusCode == 201) {
+    //convert the reponse to an assessment object and return it using the fromJson method
+    print(jsonDecode(response.body));
+    print("It worked!");
+    //turn the json into a list of attempts
+    return jsonDecode(response.body)
+        .map((attempt) => Attempt.fromJson(attempt))
+        .toList();
+    // Handle success
+  } else {
+    // Handle error
+    print("It didn't work");
+    print(response.body);
+    return false;
+  }
+}
