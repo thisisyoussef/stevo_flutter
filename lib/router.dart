@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:stevo_flutter/models/assessment.dart';
 import 'package:stevo_flutter/router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')
@@ -13,7 +14,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: SplashRoute.page, initial: true),
         AutoRoute(page: LoginRoute.page),
         AutoRoute(page: ResultsRoute.page),
-        AutoRoute(page: AllTestAttemptsRoute.page)
+        AutoRoute(page: AllTestAttemptsRoute.page),
+        AutoRoute(page: AssessmentOverviewRoute.page),
         // AutoRoute(page: TestRoute.page),
       ];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:stevo_flutter/data/sharedPreferences.dart';
 import 'package:stevo_flutter/models/material.dart';
 import 'package:stevo_flutter/models/assessment.dart';
 import 'package:stevo_flutter/models/topic.dart';
@@ -14,12 +15,13 @@ import '../models/attempt.dart';
 
 class UserInfo extends ChangeNotifier {
   User _user = User(
-    id: "1",
-    firstName: "John",
-    lastName: "Doe",
+    id: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    role: "student",
+    role: "",
   );
+
   List<Topic> _topics = [];
   List<MaterialModel> _materials = [];
   Topic _currentTopic = Topic.empty();
@@ -32,6 +34,22 @@ class UserInfo extends ChangeNotifier {
 
   //attempts getter
   List<Attempt> get getAttempts => _attempts;
+
+  //load user from shared preferences
+  loadUser() async {
+    _user = await getUser();
+    if (_user.id != "") {
+      print("User loaded");
+      notifyListeners();
+      return true;
+    } else {
+      print("Error loading user");
+      return false;
+    }
+  }
+
+  //user getter
+  User get getUserInfo => _user;
 
   //load attempts
   loadAttempts() async {
@@ -87,12 +105,34 @@ class UserInfo extends ChangeNotifier {
     }
   }
 
+  //load assessments of a topic
+  loadAssessmentsByTopic() async {
+    print("Loading assessments");
+    _assessments = await getAssessmentsByTopic(_currentTopic.id!);
+    if (_assessments != false) {
+      print("Assessments loaded");
+      //print assessment names
+      for (var assessment in _assessments) {
+        print(assessment.name);
+      }
+      notifyListeners();
+      return true;
+    } else {
+      print("Error loading assessments");
+      return false;
+    }
+  }
+
   //assessments getter:
   List<Assessment> get getAssessments => _assessments;
 
   //create and set attempt
   startAttempt() async {
-    currentAttempt = await createAttempt(currentAssessment.id);
+    try {
+      currentAttempt = await createAttempt(currentAssessment.id);
+    } catch (e) {
+      print(e);
+    }
     if (currentAttempt.id != "") {
       notifyListeners();
       return true;

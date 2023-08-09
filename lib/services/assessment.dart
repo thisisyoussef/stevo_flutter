@@ -161,3 +161,33 @@ Future<dynamic> getMyAssessments() async {
     return false;
   }
 }
+
+//getAssessment by topic:
+Future<dynamic> getAssessmentsByTopic(String topicId) async {
+  print('getMyAssessments called');
+  String token = await getToken();
+  final url = Uri.parse(
+      'https://exquizite-prod.herokuapp.com/assessments/topic/$topicId');
+  final response = await http.get(url, headers: <String, String>{
+    'Content-Type': 'application/json; charset=UTF-8',
+    'Authorization': 'Bearer $token',
+  });
+  if (response.statusCode == 200) {
+    print("Got my assessments");
+    //turn the list of assessments into json and return it
+    var assessments = jsonDecode(response.body);
+    print("Ready to return");
+    //print(assessments);
+    //use fromJson to convert the json to a list of assessments
+    List<Assessment> assessmentList = [];
+    for (var assessment in assessments) {
+      assessmentList.add(Assessment.fromJson(assessment));
+    }
+    return assessmentList;
+    // Handle success
+  } else {
+    // Handle error
+    print(response.body);
+    return false;
+  }
+}

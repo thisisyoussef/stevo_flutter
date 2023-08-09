@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/router.gr.dart';
+import 'package:stevo_flutter/utils/navigationUtils.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 
 //A Page to display the results of an assessment after submission, loads data from the UserInfo Provider
@@ -86,7 +87,10 @@ class _ResultsScreenState extends State<ResultsScreen> {
                   CustomButton(
                     text: "Back to topic",
                     onPressed: () {
-                      context.router.push(TopicRoute());
+                      NavigationUtils.popAndPushTopic(
+                          context,
+                          Provider.of<UserInfo>(context, listen: false)
+                              .currentTopic);
                     },
                     icon: Icons.arrow_back,
                   ),

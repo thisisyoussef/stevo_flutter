@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/functions/isLoggedIn.dart';
 import 'package:stevo_flutter/router.gr.dart';
-import 'package:stevo_flutter/screens/homeScreen.dart';
+import 'package:stevo_flutter/screens/homeScreens/homeScreen.dart';
 import 'package:stevo_flutter/utils/navigationUtils.dart';
 
 @RoutePage()

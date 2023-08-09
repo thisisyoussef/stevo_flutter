@@ -6,7 +6,6 @@ import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/models/question.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
-import '../../models/assessment.dart';
 import 'package:stevo_flutter/widgets/mcqBox.dart';
 
 @RoutePage()
@@ -57,7 +56,7 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Provider.of<UserInfo>(context, listen: true)
+        title: Text(Provider.of<UserInfo>(context, listen: false)
             .currentAssessment
             .name),
       ),
@@ -68,138 +67,66 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
             vertical: 50,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
+              Text(
+                Provider.of<UserInfo>(context, listen: false)
+                    .currentAssessment
+                    .name,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      Provider.of<UserInfo>(context, listen: true)
+                  _buildInfoItem(
+                      'Subject',
+                      Provider.of<UserInfo>(context, listen: false)
                           .currentAssessment
-                          .name,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-
-                  //Row of Test Info with borders on top and bottom all the way across. Only one row with title and information directly next to each other
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(width: 1.0, color: Colors.grey),
-                        bottom: BorderSide(width: 1.0, color: Colors.grey),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        //Test Subject
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Subject",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              Text(
-                                Provider.of<UserInfo>(context, listen: true)
-                                    .currentAssessment
-                                    .subject,
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
-                        //Test Difficulty
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Difficulty",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              Text(
-                                Provider.of<UserInfo>(context, listen: true)
-                                    .currentAssessment
-                                    .difficulty,
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
-                        //Test Number of Questions
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Number of Questions",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              Text(
-                                Provider.of<UserInfo>(context, listen: true)
-                                    .currentAssessment
-                                    .questions
-                                    .length
-                                    .toString(),
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
-                        //Time Limit
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Time Limit",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              Text(
-                                "Placeholder",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                          .subject),
+                  _buildInfoItem(
+                      'Difficulty',
+                      Provider.of<UserInfo>(context, listen: false)
+                          .currentAssessment
+                          .difficulty),
+                  _buildInfoItem(
+                      'Number of Questions',
+                      Provider.of<UserInfo>(context, listen: false)
+                          .currentAssessment
+                          .questions
+                          .length
+                          .toString()),
+                  _buildInfoItem('Time Limit', '60 mins'),
                 ],
               ),
-              //ListView.builder of questions using the MCQ widget. Pass in template MCQ object for each
-
+              SizedBox(height: 32),
+              Text(
+                'Questions',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 16),
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: Provider.of<UserInfo>(context, listen: true)
+                itemCount: Provider.of<UserInfo>(context, listen: false)
                     .currentAssessment
                     .questions
-                    .length,
+                    .length, // Assuming 10 questions
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: MCQBox(
-                      question: MCQ(
-                        answer: Provider.of<UserInfo>(context, listen: true)
-                            .currentAssessment
-                            .questions[index]
-                            .answer,
-                        question: Provider.of<UserInfo>(context, listen: true)
-                            .currentAssessment
-                            .questions[index]
-                            .question,
-                        id: Provider.of<UserInfo>(context, listen: true)
-                            .currentAssessment
-                            .questions[index]
-                            .id,
-                        options: Provider.of<UserInfo>(context, listen: true)
-                            .currentAssessment
-                            .questions[index]
-                            .options,
-                      ),
+                      question: Provider.of<UserInfo>(context, listen: false)
+                          .currentAssessment
+                          .questions[index], // Replace with actual options
                       onUpdate: (value) {
                         setState(() {
                           print(answers.length);
@@ -227,7 +154,9 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
                   );
                 },
               ),
-              CustomButton(
+              SizedBox(height: 32),
+              Center(
+                child: CustomButton(
                   text: 'Submit',
                   onPressed: () async {
                     context.loaderOverlay.show();
@@ -243,11 +172,37 @@ class _TakingTestScreenState extends State<TakingTestScreen> {
                               Text('Something went wrong! Please try again.')));
                     }
                   },
-                  icon: Icons.check),
+                ),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildInfoItem(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+      ],
     );
   }
 }

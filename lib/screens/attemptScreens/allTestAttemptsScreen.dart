@@ -1,10 +1,14 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stevo_flutter/app_theme.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
+import 'package:stevo_flutter/router.gr.dart';
+import 'package:stevo_flutter/utils/navigationUtils.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
+import 'package:intl/intl.dart';
 
 @RoutePage()
 class AllTestAttemptsScreen extends StatelessWidget {
@@ -60,22 +64,26 @@ class AllTestAttemptsScreen extends StatelessWidget {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Date Taken:" +
-                              Provider.of<UserInfo>(context)
-                                  .getAttempts[index]
-                                  .completedAt
-                                  .toString()),
-                          Text("Time Taken: " +
-                              Provider.of<UserInfo>(context)
-                                  .getAttempts[index]
-                                  .timeTaken
-                                  .toString()),
+                          Text(
+                              "Date Taken: ${Provider.of<UserInfo>(context).getAttempts[index].completedAt != null ? DateFormat.yMMMd().format(Provider.of<UserInfo>(context).getAttempts[index].completedAt!) : 'N/A'}"),
+                          Text(
+                              "Time Taken:  ${Provider.of<UserInfo>(context).getAttempts[index].timeTaken.toString() != null ? Provider.of<UserInfo>(context).getAttempts[index].timeTaken.toString() : 'N/A'}" +
+                                  " minutes"),
                         ],
                       ),
                       trailing: IconButton(
                         icon: Icon(Icons.remove_red_eye,
                             color: appTheme.primaryColor),
-                        onPressed: () {},
+                        onPressed: () {
+                          //set the current attempt to the attempt that was clicked
+                          NavigationUtils.setCurrentAttemptAndPushResults(
+                            context,
+                            //attempt id
+                            Provider.of<UserInfo>(context, listen: false)
+                                .getAttempts[index]
+                                .id,
+                          );
+                        },
                         color: appTheme.primaryColor,
                       ),
                     ),

@@ -29,6 +29,9 @@ Future<bool> registerUser(String firstName, String lastName, String email,
     saveToken(token);
     saveEmail(email);
     saveRole(role);
+    saveName(firstName);
+    saveLastName(lastName);
+    saveId(user['_id']);
     //Save user information to shared preferences
     saveIsLoggedIn(true);
     return true;
@@ -62,11 +65,18 @@ Future<bool> loginUser(String email, String password) async {
   if (response.statusCode == 200) {
     // Handle success
     final user = jsonDecode(response.body)['user'];
+    print("Logging in");
+    print(user);
     final token = jsonDecode(response.body)['token'];
     final role = jsonDecode(response.body)['user']['role'];
+    final firstName = jsonDecode(response.body)['user']['firstName'];
+    final lastName = jsonDecode(response.body)['user']['lastName'];
     saveToken(token);
     saveEmail(email);
     saveRole(role);
+    saveName(firstName);
+    saveLastName(lastName);
+    saveId(user['_id']);
     //Save user information to shared preferences
     saveIsLoggedIn(true);
     return true;

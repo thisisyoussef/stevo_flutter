@@ -9,6 +9,7 @@ class Assessment {
   final String difficulty;
   final int numberOfQuestions;
   final List<MCQ> questions;
+  final String topicId;
 
   Assessment(
       {required this.name,
@@ -18,7 +19,8 @@ class Assessment {
       required this.lastScore,
       required this.difficulty,
       required this.numberOfQuestions,
-      required this.questions});
+      required this.questions,
+      required this.topicId});
 
   //Create empty test:
   factory Assessment.empty() {
@@ -30,7 +32,8 @@ class Assessment {
         lastScore: 0,
         difficulty: '',
         numberOfQuestions: 0,
-        questions: []);
+        questions: [],
+        topicId: '');
   }
 
   //Create test from json while accounting for fields that may not be present except for name and id
@@ -53,7 +56,8 @@ class Assessment {
                   return MCQ.fromJson(question);
                 }
               }))
-            : []);
+            : [],
+        topicId: json['topic'] ?? '');
   }
 
   //Convert test to json
@@ -66,5 +70,8 @@ class Assessment {
         'difficulty': difficulty,
         'numberOfQuestions': numberOfQuestions,
         'questions': questions
+            .map((question) => question.id)
+            .toList(), //convert list of questions to list of ids
+        'topic': topicId
       };
 }

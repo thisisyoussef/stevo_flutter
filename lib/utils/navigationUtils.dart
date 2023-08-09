@@ -60,6 +60,8 @@ class NavigationUtils {
     context.loaderOverlay.show();
     Provider.of<UserInfo>(context, listen: false).loadTopics();
     Provider.of<UserInfo>(context, listen: false).loadAssessments();
+    //loadUser
+    Provider.of<UserInfo>(context, listen: false).loadUser();
     context.loaderOverlay.hide();
     await AutoRouter.of(context).replace(HomeRoute());
   }
@@ -89,5 +91,44 @@ class NavigationUtils {
         .loadAttemptsByAssessmentId(assessment.id);
     context.loaderOverlay.hide();
     await AutoRouter.of(context).push(AllTestAttemptsRoute());
+  }
+
+  //setCurrentAttemptAndPushResults
+  static Future<void> setCurrentAttemptAndPushResults(
+      BuildContext context, String attemptId) async {
+    context.loaderOverlay.show();
+    Provider.of<UserInfo>(context, listen: false).loadAttempt(attemptId);
+    context.loaderOverlay.hide();
+    await AutoRouter.of(context).push(ResultsRoute());
+  }
+
+//pushTopic
+  static Future<void> pushTopic(BuildContext context, Topic topic) async {
+    //Update UserInfo Provider
+    //UserInfo().user = null;
+    //getTopics();
+    //Use AutoRoute to push to a new screen
+
+    context.loaderOverlay.show();
+    Provider.of<UserInfo>(context, listen: false).setCurrentTopic(topic);
+    Provider.of<UserInfo>(context, listen: false).loadMaterials();
+    Provider.of<UserInfo>(context, listen: false).loadAssessmentsByTopic();
+    context.loaderOverlay.hide();
+    await AutoRouter.of(context).push(TopicRoute());
+  }
+
+  //popAndPushTopic
+  static Future<void> popAndPushTopic(BuildContext context, Topic topic) async {
+    //Update UserInfo Provider
+    //UserInfo().user = null;
+    //getTopics();
+    //Use AutoRoute to push to a new screen
+
+    context.loaderOverlay.show();
+    Provider.of<UserInfo>(context, listen: false).setCurrentTopic(topic);
+    Provider.of<UserInfo>(context, listen: false).loadMaterials();
+    Provider.of<UserInfo>(context, listen: false).loadAssessmentsByTopic();
+    context.loaderOverlay.hide();
+    await AutoRouter.of(context).popAndPush(TopicRoute());
   }
 }

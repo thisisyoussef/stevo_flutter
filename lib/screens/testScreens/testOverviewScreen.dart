@@ -9,6 +9,8 @@ import 'package:stevo_flutter/models/assessment.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/widgets/buttons/customButton.dart';
 
+import '../../utils/navigationUtils.dart';
+
 @RoutePage()
 class TestOverviewScreen extends StatelessWidget {
   TestOverviewScreen({super.key});
@@ -17,9 +19,15 @@ class TestOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Test Overview",
+        //override back button:
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            NavigationUtils.popAndPushTopic(context,
+                Provider.of<UserInfo>(context, listen: false).currentTopic);
+          },
         ),
+        title: Text("Test Overview"),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 //Widget for the screens: A floating container with custom contents in that takes you to a new screen when you tap on it.
-//The container also has a border and a shadow. 
+//The container also has a border and a shadow.
 //The container also has a title and a subtitle that are displayed on the top of the container.
 //The DialogBox widget takes in arguments for the title and subtitle. It also takes in an argument for the contents of the container.
 
 class DialogBox extends StatelessWidget {
-  const DialogBox({required this.title, required this.subtitle, required this.contents});
+  const DialogBox(
+      {required this.title, required this.subtitle, required this.contents});
 
   final String title;
   final String subtitle;
@@ -50,9 +51,7 @@ class DialogBox extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            
             Expanded(child: contents),
-       
           ],
         ),
       ),

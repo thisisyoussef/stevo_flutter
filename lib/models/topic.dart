@@ -1,3 +1,5 @@
+import 'package:stevo_flutter/services/topic.dart';
+
 class Topic {
   String? id;
   String name;
@@ -75,5 +77,9 @@ class Topic {
       sharedWith: List<String>.from(json['sharedWith'] ?? []),
       language: json['language'],
     );
+  }
+
+  getTopicsFromEndpoint() async {
+    return await getTopics();
   }
 }
