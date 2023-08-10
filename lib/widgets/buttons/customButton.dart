@@ -11,28 +11,31 @@ import 'package:flutter/material.dart';
 //The button has a shape of RoundedRectangleBorder. The button has an elevation of 0.0.
 //The button has a highlight elevation of 0.0. The button has an on pressed function that prints "Button Pressed!" to the console and executes the function passed in as an argument.
 //The function passed in as an argument is optional.
-
 class CustomButton extends StatelessWidget {
   const CustomButton({
     Key? key,
     required this.text,
     this.icon,
     this.onPressed,
+    this.disabled = false,
   }) : super(key: key);
 
   final String text;
   final IconData? icon;
   final Function? onPressed;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        print('Button Pressed!');
-        if (onPressed != null) {
-          onPressed!();
-        }
-      },
+      onPressed: disabled
+          ? null
+          : () {
+              print('Button Pressed!');
+              if (onPressed != null) {
+                onPressed!();
+              }
+            },
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(100, 25),
         maximumSize: const Size(300, 100),

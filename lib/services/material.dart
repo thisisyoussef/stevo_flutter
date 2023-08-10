@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:stevo_flutter/data/sharedPreferences.dart';
@@ -35,6 +36,13 @@ Future<bool> uploadMaterialText(
     print(error);
     return false;
   }
+}
+
+//upload a material to a topic with file(s)
+Future<bool> uploadMaterialFiles(
+    String topicId, String name, String description, List<File> files) async {
+  //blank for now
+  return false;
 }
 
 //get All Materials of a topic:
