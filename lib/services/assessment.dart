@@ -28,7 +28,7 @@ Future<dynamic> generateAssessment(
       body: jsonEncode(<String, dynamic>{
         'name': name,
         'numQuestions': numQuestions,
-        'difficulty': difficulty,
+        'difficulty': difficulty.toLowerCase(),
       }));
   if (response.statusCode == 200) {
     //get jobid from response and print

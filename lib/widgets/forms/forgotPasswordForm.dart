@@ -5,7 +5,7 @@ import 'package:pinput/pinput.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/services/profileManagement.dart';
 
-import '../../app_theme.dart';
+import '../../data/app_theme.dart';
 import '../buttons/customButton.dart';
 
 //Forgot password form

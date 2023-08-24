@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:stevo_flutter/app_theme.dart';
+import 'package:stevo_flutter/data/app_theme.dart';
 import 'package:stevo_flutter/data/sharedPreferences.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/functions/subjectToIcon.dart';
+import 'package:stevo_flutter/utils/navigationUtils.dart';
 import 'package:stevo_flutter/widgets/dialogBoxes/dialogBox.dart';
 import 'package:stevo_flutter/widgets/dialogBoxes/testsDialog.dart';
 import 'package:stevo_flutter/widgets/dialogBoxes/welsomeDialog.dart';
@@ -41,6 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 HomeNavigationRail(
                   replacementFunction: (Widget newScreen, int newIndex) {
+                    //if newIndex is last index, logout
+                    if (newIndex == 3) {
+                      NavigationUtils.logout(context);
+                      return;
+                    }
+                    //if newIndex is the same as selectedIndex, do nothing
+                    if (newIndex == selectedIndex) {
+                      return;
+                    }
                     setState(() {
                       setState(() {
                         currentScreen = newScreen;
@@ -51,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   child: currentScreen,
-                  width: MediaQuery.of(context).size.width * 0.962,
+                  width: MediaQuery.of(context).size.width * 0.95,
                 ),
               ],
             ),

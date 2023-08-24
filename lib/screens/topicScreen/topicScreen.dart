@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stevo_flutter/app_theme.dart';
+import 'package:stevo_flutter/data/app_theme.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/widgets/dialogBoxes/dialogBox.dart';
 import 'package:stevo_flutter/widgets/navigationRails/homeNavigationRail.dart';

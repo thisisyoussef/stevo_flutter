@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stevo_flutter/app_theme.dart';
+import 'package:stevo_flutter/data/app_theme.dart';
 
 import '../../data/userInfo.dart';
 import '../../models/topic.dart';
@@ -90,9 +90,15 @@ class _PathDialogState extends State<PathDialog> {
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
+            print("Current topics subjects:"
+                // the subjects of the last topic:
+                +
+                Provider.of<UserInfo>(context, listen: true)
+                    .topics[index]
+                    .subject
+                    .toString());
             return TopicBlock(
-              topic:
-                  Provider.of<UserInfo>(context, listen: true).topics[index]!,
+              topic: Provider.of<UserInfo>(context, listen: true).topics[index],
             );
           },
         ),

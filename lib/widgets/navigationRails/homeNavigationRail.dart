@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/screens/homeScreens/homeScreen.dart';
 import 'package:stevo_flutter/screens/homeScreens/libraryPage.dart';
-import 'package:stevo_flutter/screens/homeScreens/profilePage.dart';
+import 'package:stevo_flutter/screens/homeScreens/profileScreens/profilePage.dart';
 import 'package:stevo_flutter/screens/loginScreen.dart';
 import 'package:stevo_flutter/widgets/navigationRails/stevoNavigationRail.dart';
 
@@ -42,7 +42,7 @@ class HomeNavigationRail extends StatelessWidget {
       ),
     ];
     List<Widget> routes = [
-      const HomeScreen(),
+      const Home(),
       const LibraryPage(),
       const ProfilePage(),
       LoginScreen()

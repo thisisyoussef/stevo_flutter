@@ -3,7 +3,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:stevo_flutter/app_theme.dart';
+import 'package:stevo_flutter/data/app_theme.dart';
 
 import '../../router.gr.dart';
 import '../buttons/customButton.dart';

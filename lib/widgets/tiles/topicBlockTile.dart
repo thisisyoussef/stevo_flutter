@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/utils/navigationUtils.dart';
 
-import '../../app_theme.dart';
+import '../../data/app_theme.dart';
 import '../../functions/subjectToIcon.dart';
 import '../../models/topic.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -18,13 +18,46 @@ class TopicBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor;
+    Color iconColor;
+
+    switch (topic?.subject) {
+      case "math":
+        backgroundColor = Colors.blue[200]!;
+        iconColor = Colors.blue[800]!;
+        break;
+      case "science":
+        backgroundColor = Colors.green[200]!;
+        iconColor = Colors.green[800]!;
+        break;
+      case "History":
+        backgroundColor = Colors.orange[200]!;
+        iconColor = Colors.orange[800]!;
+        break;
+      case "English":
+        backgroundColor = Colors.purple[200]!;
+        iconColor = Colors.purple[800]!;
+        break;
+      default:
+        backgroundColor = Colors.grey[200]!;
+        iconColor = Colors.grey[800]!;
+        break;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () => NavigationUtils.pushTopic(context, topic!),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                backgroundColor,
+                backgroundColor.withOpacity(0.6),
+              ],
+            ),
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
               BoxShadow(
@@ -43,21 +76,54 @@ class TopicBlock extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    subjectToIcon(topic?.subject ?? ""),
-                    size: 150,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: iconColor,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Icon(
+                        subjectToIcon(topic?.subject ?? ""),
+                        size: 80,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  AutoSizeText(
-                    topic?.subject ?? "",
-                    style: appTheme.textTheme.headline4,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                  ),
+                  SizedBox(height: 20),
                   AutoSizeText(
                     topic?.name ?? "",
-                    style: appTheme.textTheme.headline2,
+                    style: appTheme.textTheme.headline4!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                     maxLines: 1,
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () => NavigationUtils.pushTopic(context, topic!),
+                    child: Text(
+                      "View Topic",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: iconColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -34,6 +34,7 @@ Future<bool> uploadMaterialText(
   } else {
     final error = jsonDecode(response.body)['error'];
     print(error);
+    print(response.statusCode);
     return false;
   }
 }
@@ -41,8 +42,37 @@ Future<bool> uploadMaterialText(
 //upload a material to a topic with file(s)
 Future<bool> uploadMaterialFiles(
     String topicId, String name, String description, List<File> files) async {
-  //blank for now
-  return false;
+  print(name);
+  print('upload Material Files called');
+  String? token = await getToken();
+  final url = Uri.parse(
+      'https://exquizite-prod.herokuapp.com/topics/$topicId/materials/files');
+
+  // Prepare the multipart request
+  var request = http.MultipartRequest('POST', url)
+    ..headers['Authorization'] = 'Bearer $token'
+    ..fields['name'] = name
+    ..fields['description'] = description;
+
+  // Add files to the request
+  for (var file in files) {
+    var stream = http.ByteStream(file.openRead());
+    var length = await file.length();
+    var multipartFile = http.MultipartFile('files', stream, length,
+        filename: file.path.split('/').last); // Use the filename from the path
+    request.files.add(multipartFile);
+  }
+
+  // Send the request and handle the response
+  var response = await request.send();
+  if (response.statusCode == 201) {
+    print('uploadMaterialFiles successful');
+    print(await response.stream.bytesToString());
+    return true;
+  } else {
+    print(await response.stream.bytesToString());
+    return false;
+  }
 }
 
 //get All Materials of a topic:

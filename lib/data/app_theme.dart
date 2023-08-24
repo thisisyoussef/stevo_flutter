@@ -13,11 +13,23 @@ import 'package:pinput/pinput.dart';
 // #c26969
 // #c38d86
 // #c4b2a3
-const Color color1 = const Color(0xffc2454d);
+
+// const Color color1 = const Color(0xffc2454d);
+// const Color color2 = const Color(0xffc26969);
+// const Color color3 = const Color(0xffc38d86);
+// const Color color4 = const Color(0xffc4b2a3);
+// const Color color5 = const Color(0xfff0ead9);
+
+const Color color1 = const Color(0xff2d6dee); // Blue
+// const Color color1 = const Color(0xffc2454d);
+// const Color color2 = Colors.white; // Light Taupe
 const Color color2 = const Color(0xffc26969);
-const Color color3 = const Color(0xffc38d86);
-const Color color4 = const Color(0xffc4b2a3);
-const Color color5 = const Color(0xfff0ead9);
+// const Color color3 = Colors.white; // Grayish Brown
+//Light Sky Blue variation of Blue in color1
+const Color color3 = Color.fromRGBO(45, 109, 238, 0.6);
+const Color color4 = const Color(0xffFDFDFD); // Light Sky Blue
+const Color color5 = Colors.white; // Very Light Gray
+const textColor = Colors.black;
 
 final defaultPinTheme = PinTheme(
   width: 56,
@@ -121,64 +133,64 @@ final appTheme = ThemeData(
       900: color1.withOpacity(1.0),
     },
   ),
-  textTheme: const TextTheme(
+  textTheme: TextTheme(
     bodyMedium: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 20,
       fontWeight: FontWeight.w500,
     ),
     bodySmall: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 16,
       fontWeight: FontWeight.w500,
     ),
     bodyLarge: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 24,
       fontWeight: FontWeight.w500,
     ),
     titleLarge: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 32,
       fontWeight: FontWeight.w500,
     ),
     titleMedium: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 24,
       fontWeight: FontWeight.w500,
     ),
     titleSmall: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 20,
       fontWeight: FontWeight.w500,
     ),
     displayLarge: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 48,
       fontWeight: FontWeight.w500,
     ),
     displayMedium: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 32,
       fontWeight: FontWeight.w500,
     ),
     displaySmall: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 24,
       fontWeight: FontWeight.w500,
     ),
     labelLarge: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 20,
       fontWeight: FontWeight.w500,
     ),
     labelMedium: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 16,
       fontWeight: FontWeight.w500,
     ),
     labelSmall: TextStyle(
-      color: color1,
+      color: textColor,
       fontSize: 12,
       fontWeight: FontWeight.w500,
     ),

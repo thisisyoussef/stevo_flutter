@@ -1,14 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:stevo_flutter/services/topic.dart';
 
+import '../../../data/constants.dart';
 import '../../../models/topic.dart';
 import '../../buttons/customButton.dart';
-
-//A dialog box that allows the user to create a new topic
-//Similar to the createAssessmentDialog
-//Fills in information in the Topic model
 
 class CreateTopicDialog extends StatefulWidget {
   CreateTopicDialog({Key? key}) : super(key: key);
@@ -17,21 +12,13 @@ class CreateTopicDialog extends StatefulWidget {
   _CreateTopicDialogState createState() => _CreateTopicDialogState();
 }
 
-//State for the CreateTopicDialog
-
 class _CreateTopicDialogState extends State<CreateTopicDialog> {
-  //Text editing controllers for the text fields
   final TextEditingController _topicNameController = TextEditingController();
   final TextEditingController _topicDescriptionController =
       TextEditingController();
-
-  //Key for the form
   final _formKey = GlobalKey<FormState>();
-
-  //new Topic object
   Topic _newTopic = Topic.empty();
 
-  //Function to validate the form
   bool _validateForm() {
     if (_formKey.currentState!.validate()) {
       return true;
@@ -40,7 +27,6 @@ class _CreateTopicDialogState extends State<CreateTopicDialog> {
     }
   }
 
-  //Function to clear the text fields
   void _clearTextFields() {
     _topicNameController.clear();
     _topicDescriptionController.clear();
@@ -49,24 +35,39 @@ class _CreateTopicDialogState extends State<CreateTopicDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Create Topic"),
+      title: Text(
+        "Create Topic",
+        style: TextStyle(
+          color: Colors.blue,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       content: Container(
         width: MediaQuery.of(context).size.width * 0.5,
         height: MediaQuery.of(context).size.height * 0.3,
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                "Topic Name",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 5),
               TextFormField(
                 onChanged: (value) {
                   setState(() {
                     _newTopic.name = value;
-                    print("Topic name changed to ${_newTopic.name}");
                   });
                 },
                 controller: _topicNameController,
                 decoration: InputDecoration(
-                  labelText: "Topic Name",
+                  border: OutlineInputBorder(),
+                  hintText: "Enter topic name",
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -75,6 +76,15 @@ class _CreateTopicDialogState extends State<CreateTopicDialog> {
                   return null;
                 },
               ),
+              SizedBox(height: 10),
+              Text(
+                "Topic Description",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 5),
               TextFormField(
                 onChanged: (value) {
                   setState(() {
@@ -83,7 +93,8 @@ class _CreateTopicDialogState extends State<CreateTopicDialog> {
                 },
                 controller: _topicDescriptionController,
                 decoration: InputDecoration(
-                  labelText: "Topic Description",
+                  border: OutlineInputBorder(),
+                  hintText: "Enter topic description",
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -92,45 +103,43 @@ class _CreateTopicDialogState extends State<CreateTopicDialog> {
                   return null;
                 },
               ),
-              //A dropdown menu for the subject:
+              SizedBox(height: 10),
+              Text(
+                "Subject",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 5),
               DropdownButtonFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Select subject",
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
                 onSaved: (value) {
                   setState(() {
                     _newTopic.subject = value;
-                    print("Subject changed to ${_newTopic.subject}");
                   });
                 },
-                decoration: InputDecoration(
-                  labelText: "Subject",
-                ),
-                items: [
-                  DropdownMenuItem(
-                    child: Text("Math"),
-                    value: "Math",
-                    onTap: () {
-                      //SAVE THE dropdownbuttonformfield:
-                      _formKey.currentState!.save();
-                    },
-                  ),
-                  DropdownMenuItem(
-                    child: Text("Science"),
-                    value: "Science",
-                  ),
-                  DropdownMenuItem(
-                    child: Text("English"),
-                    value: "English",
-                  ),
-                  DropdownMenuItem(
-                    child: Text("History"),
-                    value: "History",
-                  ),
-                  DropdownMenuItem(
-                    child: Text("Other"),
-                    value: "Other",
-                  ),
-                ],
+                items: subjects.map((subject) {
+                  return DropdownMenuItem(
+                    child: Text(subject),
+                    value: subject,
+                  );
+                }).toList(),
                 onChanged: (value) {
-                  print("Subject changed to $value");
+                  setState(() {
+                    _newTopic.subject = value!.toLowerCase();
+                  });
                 },
               ),
             ],
@@ -151,18 +160,13 @@ class _CreateTopicDialogState extends State<CreateTopicDialog> {
             CustomButton(
               text: "Create",
               onPressed: () async {
-                print("Create button pressed");
                 if (_validateForm()) {
                   if (await createTopic(_newTopic)) {
-                    print("Topic created successfully");
                     _clearTextFields();
                     Navigator.of(context).pop();
                   } else {
-                    print("Topic creation failed");
                     //Set error message:
                   }
-                } else {
-                  print("Form validation failed");
                 }
               },
               icon: Icons.add,

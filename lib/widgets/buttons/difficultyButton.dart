@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stevo_flutter/data/app_theme.dart';
 
 class DifficultyButton extends StatelessWidget {
   DifficultyButton({
@@ -21,7 +22,7 @@ class DifficultyButton extends StatelessWidget {
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
-            side: BorderSide(color: Colors.grey),
+            side: BorderSide(color: appTheme.primaryColor.withOpacity(0.5)),
           ),
         ),
         onPressed: onPressed,

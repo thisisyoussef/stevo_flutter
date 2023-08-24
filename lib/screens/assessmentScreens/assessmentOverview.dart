@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stevo_flutter/app_theme.dart';
+import 'package:stevo_flutter/data/app_theme.dart';
 import 'package:stevo_flutter/widgets/dialogBoxes/dialogBox.dart';
 import 'package:stevo_flutter/widgets/listPages/testVerticalListPage.dart';
 import 'package:stevo_flutter/widgets/navigationRails/topicNavigationRail.dart';

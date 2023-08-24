@@ -48,7 +48,7 @@ class MaterialModel {
               ? []
               : List<File>.from(json['files'].map((x) => File(x))),
       topic: json['topic'],
-      text: json['text'],
+      text: json['text'] ?? "",
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );

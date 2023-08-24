@@ -15,6 +15,24 @@ Future<User> getUser() async {
       id: id, firstName: name, lastName: lastName, email: email, role: role);
 }
 
+//All purpose log out function
+Future<User> logout() async {
+  logoutUser(await getToken());
+  deleteToken();
+  deleteEmail();
+  deleteRole();
+  saveIsLoggedIn(false);
+
+  return User(
+    id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: "",
+  );
+  //Call service to log out user from server
+}
+
 void saveLastName(String lastName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('lastName', lastName);
@@ -118,14 +136,4 @@ void deleteRole() async {
 void saveIsLoggedIn(bool isLoggedIn) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool('isLoggedIn', isLoggedIn);
-}
-
-//All purpose log out function
-void logout() async {
-  logoutUser(await getToken());
-  deleteToken();
-  deleteEmail();
-  deleteRole();
-  saveIsLoggedIn(false);
-  //Call service to log out user from server
 }

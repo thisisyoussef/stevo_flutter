@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:stevo_flutter/app_theme.dart';
+import 'package:stevo_flutter/data/app_theme.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/models/assessment.dart';
 import 'package:stevo_flutter/router.gr.dart';
@@ -19,7 +19,6 @@ class TestOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //override back button:
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -30,239 +29,323 @@ class TestOverviewScreen extends StatelessWidget {
         title: Text("Test Overview"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.25, vertical: 50),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //Icon to signify that the test is ready to be taken
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  border: Border.all(color: Colors.transparent),
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    border: Border.all(color: Colors.transparent),
-                    borderRadius: BorderRadius.all(Radius.circular(2)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        Icon(Icons.check_circle_outline,
-                            size: 100, color: appTheme.primaryColor),
-                        Text("Your test is ready!",
-                            style: TextStyle(fontSize: 40)),
-                        Text(
-                            "Your customized test has been successfully generated.",
-                            style: TextStyle(fontSize: 20, color: Colors.grey)),
-                      ],
-                    ),
-                  ),
-                ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Your Test",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              //Test Name
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      Provider.of<UserInfo>(context, listen: true)
-                          .currentAssessment
-                          .name,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black)),
-                  Text(
-                      Provider.of<UserInfo>(context, listen: true)
-                          .currentAssessment
-                          .difficulty,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Provider.of<UserInfo>(context, listen: true)
-                                      .currentAssessment
-                                      .difficulty ==
-                                  'Hard'
-                              ? Colors.red
-                              : Provider.of<UserInfo>(context, listen: true)
-                                          .currentAssessment
-                                          .difficulty ==
-                                      'Medium'
-                                  ? Colors.orange
-                                  : Provider.of<UserInfo>(context, listen: true)
-                                              .currentAssessment
-                                              .difficulty ==
-                                          'Easy'
-                                      ? Colors.green
-                                      : Colors.green))
+            ),
+            SizedBox(height: 16),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
                 ],
               ),
-              Column(
-                children: [
-                  InfoTile(
-                      iconData: Icons.timer,
-                      text: "Time Allowed",
-                      value: "10 minutes"),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  InfoTile(
-                      iconData: Icons.question_answer,
-                      text: "Number of Questions",
-                      value: Provider.of<UserInfo>(context, listen: true)
-                          .currentAssessment
-                          .questions
-                          .length
-                          .toString()),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  InfoTile(
-                      iconData: Icons.assessment,
-                      text: //Attempts,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          Provider.of<UserInfo>(context, listen: true)
+                              .currentAssessment
+                              .name,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          Provider.of<UserInfo>(context, listen: true)
+                              .currentAssessment
+                              .difficulty,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Provider.of<UserInfo>(context, listen: true)
+                                        .currentAssessment
+                                        .difficulty ==
+                                    'Hard'
+                                ? Colors.red
+                                : Provider.of<UserInfo>(context, listen: true)
+                                            .currentAssessment
+                                            .difficulty ==
+                                        'Medium'
+                                    ? Colors.orange
+                                    : Provider.of<UserInfo>(context,
+                                                    listen: true)
+                                                .currentAssessment
+                                                .difficulty ==
+                                            'Easy'
+                                        ? Colors.green
+                                        : Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Icon(Icons.timer, size: 24),
+                        SizedBox(width: 8),
+                        Text(
+                          "Time Allowed",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "10 minutes",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(Icons.question_answer, size: 24),
+                        SizedBox(width: 8),
+                        Text(
+                          "Number of Questions",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          Provider.of<UserInfo>(context, listen: true)
+                              .currentAssessment
+                              .questions
+                              .length
+                              .toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(Icons.assessment, size: 24),
+                        SizedBox(width: 8),
+                        Text(
                           Provider.of<UserInfo>(context, listen: true)
                                       .currentAssessment
                                       .totalAttempts ==
                                   0
                               ? "Attempts"
                               : "Attempts Remaining",
-                      value: Provider.of<UserInfo>(context, listen: true)
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          Provider.of<UserInfo>(context, listen: true)
+                                      .currentAssessment
+                                      .totalAttempts ==
+                                  0
+                              ? "Unlimited"
+                              : Provider.of<UserInfo>(context, listen: true)
                                   .currentAssessment
-                                  .totalAttempts ==
-                              0
-                          ? "Unlimited"
-                          : Provider.of<UserInfo>(context, listen: true)
+                                  .totalAttempts
+                                  .toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    //Difficulty:
+                    Row(
+                      children: [
+                        Icon(Icons.thermostat, size: 24),
+                        SizedBox(width: 8),
+                        Text(
+                          "Difficulty",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          Provider.of<UserInfo>(context, listen: true)
                               .currentAssessment
-                              .totalAttempts
-                              .toString()),
+                              .difficulty,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Provider.of<UserInfo>(context, listen: true)
+                                        .currentAssessment
+                                        .difficulty ==
+                                    'Hard'
+                                ? Colors.red
+                                : Provider.of<UserInfo>(context, listen: true)
+                                            .currentAssessment
+                                            .difficulty ==
+                                        'Medium'
+                                    ? Colors.orange
+                                    : Provider.of<UserInfo>(context,
+                                                    listen: true)
+                                                .currentAssessment
+                                                .difficulty ==
+                                            'Easy'
+                                        ? Colors.green
+                                        : Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 32),
+            Text(
+              "Your Performance",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 16),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 20,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Previous Attempts",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(
+                              "Attempt ${index + 1}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "80%",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            trailing: IconButton(
+                              icon: Icon(Icons.arrow_forward),
+                              onPressed: () {
+                                // Navigate to the attempt details screen
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Best Score",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "90%",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              CustomButton(
-                  text: "Start Test",
-                  onPressed: () async {
-                    // Provider.of<UserInfo>(context, listen: false)
-                    //     .currentAssessment
-                    //     .questions
-                    //     .shuffle();
-                    //Create attempt from provider
-                    //show loader overlay
-                    context.loaderOverlay.show();
-                    if (await Provider.of<UserInfo>(context, listen: false)
-                        .startAttempt()) {
-                      context.loaderOverlay.hide();
-                      context.router.push(TakingTestRoute());
-                    } else {
-                      context.loaderOverlay.hide();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("You have already attempted this test"),
-                        duration: Duration(seconds: 2),
-                      ));
-                    }
-                  },
-                  icon: Icons.play_arrow)
-            ]),
-      ),
-    );
-  }
-}
-
-class InfoTile extends StatelessWidget {
-  InfoTile(
-      {super.key,
-      required this.iconData,
-      required this.text,
-      required this.value});
-  IconData iconData;
-  String text;
-  String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        border: Border.all(color: Colors.transparent),
-        borderRadius: BorderRadius.all(Radius.circular(2)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 2,
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
-      ),
-      padding: EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 10,
-          ),
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.transparent),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
             ),
-            child: Icon(
-              iconData,
-              size: 30,
-              shadows: [
-                Shadow(
-                  blurRadius: 2.0,
-                  color: Colors.grey,
-                  offset: Offset(1.0, 1.0),
-                ),
-              ],
+            SizedBox(height: 60),
+            Center(
+              child: CustomButton(
+                text: "Start Test",
+                onPressed: () async {
+                  context.loaderOverlay.show();
+                  if (await Provider.of<UserInfo>(context, listen: false)
+                      .startAttempt()) {
+                    context.loaderOverlay.hide();
+                    context.router.push(TakingTestRoute());
+                  } else {
+                    context.loaderOverlay.hide();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("You have already attempted this test"),
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
+                },
+                icon: Icons.play_arrow,
+              ),
             ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(text),
-              Text(value, style: TextStyle(fontSize: 15, color: Colors.grey))
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

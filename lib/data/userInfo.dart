@@ -48,6 +48,39 @@ class UserInfo extends ChangeNotifier {
     }
   }
 
+  //logout user
+  logoutUser() async {
+    //clear shared preferences
+    await logout();
+    //clear user info
+    _user = User(
+      id: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      role: "",
+    );
+    //clear topics
+    _topics = [];
+    //clear materials
+    _materials = [];
+    //clear assessments
+    _assessments = [];
+    //clear attempts
+    _attempts = [];
+    //clear current topic
+    _currentTopic = Topic.empty();
+    //clear current material
+    _currentMaterial = MaterialModel.empty();
+    //clear current assessment
+    currentAssessment = Assessment.empty();
+    //clear current attempt
+    currentAttempt = Attempt.empty();
+    //clear loader overlay
+    //notify listeners
+    notifyListeners();
+  }
+
   //user getter
   User get getUserInfo => _user;
 

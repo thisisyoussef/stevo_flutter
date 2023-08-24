@@ -44,11 +44,21 @@ class MaterialsPage extends StatelessWidget {
                       crossAxisSpacing: 4,
                       itemBuilder: (context, index) {
                         return MaterialTile(
-                          Colors.accents[index % Colors.accents.length],
+                          Colors.black,
+                          material: Provider.of<UserInfo>(context, listen: true)
+                              .materials[index],
                           image: Image.network(
-                            index % 2 == 0
+                            index % 6 == 0
                                 ? 'https://contenthub-static.grammarly.com/blog/wp-content/uploads/2022/02/Effective-Research-Paper.jpg'
-                                : 'https://www.wikihow.com/images/thumb/8/8f/Scientific-Research-Paper.png/340px-Scientific-Research-Paper.png',
+                                : index % 10 == 1
+                                    ? 'https://contenthub-static.grammarly.com/blog/wp-content/uploads/2019/08/August-blog-header-Amplification.png'
+                                    : index % 10 == 2
+                                        ? 'https://contenthub-static.grammarly.com/blog/wp-content/uploads/2023/07/AI-Writing-Tasks-2.png'
+                                        : index % 10 == 3
+                                            ? 'https://contenthub-static.grammarly.com/blog/wp-content/uploads/2023/08/Best-AI-Prompts-for-Writing-2.png'
+                                            : index % 10 == 4
+                                                ? 'https://contenthub-static.grammarly.com/blog/wp-content/uploads/2023/08/augustblogheader-writeanovel-V1.png'
+                                                : 'https://contenthub-static.grammarly.com/blog/wp-content/uploads/2023/07/How-to-Write-an-Instagram-Caption.png',
                             fit: BoxFit.cover,
                           ),
                           name:

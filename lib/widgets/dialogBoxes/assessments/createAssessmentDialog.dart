@@ -6,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:stevo_flutter/data/app_theme.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
 import 'package:stevo_flutter/router.gr.dart';
 import 'package:stevo_flutter/services/assessment.dart';
@@ -191,7 +192,8 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                 //SizedBox(width: 10),
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(
+                        color: appTheme.primaryColor.withOpacity(0.5)),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Row(
@@ -252,7 +254,8 @@ class _CreateAssessmentDialogState extends State<CreateAssessmentDialog> {
                 //SizedBox(width: 10),
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(
+                        color: appTheme.primaryColor.withOpacity(0.5)),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Row(

@@ -131,4 +131,17 @@ class NavigationUtils {
     context.loaderOverlay.hide();
     await AutoRouter.of(context).popAndPush(TopicRoute());
   }
+
+  //logout:
+  static Future<void> logout(BuildContext context) async {
+    //Update UserInfo Provider
+    //UserInfo().user = null;
+    //getTopics();
+    //Use AutoRoute to push to a new screen
+    context.loaderOverlay.show();
+    Provider.of<UserInfo>(context, listen: false).logoutUser();
+    context.loaderOverlay.hide();
+    //pop everything then push login
+    await AutoRouter.of(context).popAndPush(LoginRoute());
+  }
 }

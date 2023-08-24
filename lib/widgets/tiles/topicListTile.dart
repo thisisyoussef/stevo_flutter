@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stevo_flutter/data/userInfo.dart';
 
-import '../../app_theme.dart';
+import '../../data/app_theme.dart';
 import '../../functions/subjectToIcon.dart';
 import '../../models/topic.dart';
 import '../../router.gr.dart';
