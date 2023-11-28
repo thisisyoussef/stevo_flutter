@@ -84,8 +84,45 @@ class UserInfo extends ChangeNotifier {
   //user getter
   User get getUserInfo => _user;
 
+  //clear attempts
+  clearAttempts() async {
+    _attempts.clear();
+    notifyListeners();
+  }
+
+  //clear assessment
+  clearAssessment() async {
+    _assessments.clear();
+    notifyListeners();
+  }
+
+  //clear current attempt
+  clearCurrentAttempt() async {
+    currentAttempt = Attempt.empty();
+    notifyListeners();
+  }
+
+  //clear current assessment
+  clearCurrentAssessment() async {
+    currentAssessment = Assessment.empty();
+    notifyListeners();
+  }
+
+  //clear topics
+  clearTopics() async {
+    _topics.clear();
+    notifyListeners();
+  }
+
+  //clear materials
+  clearMaterials() async {
+    _materials.clear();
+    notifyListeners();
+  }
+
   //load attempts
   loadAttempts() async {
+    await clearAttempts();
     print("Loading attempts");
     //_attempts = await getAttempts(currentAssessment.id);
     if (_attempts != false) {
@@ -104,6 +141,7 @@ class UserInfo extends ChangeNotifier {
 
   //load Attempts by assessment id
   loadAttemptsByAssessmentId(String id) async {
+    await clearAttempts();
     print("Loading attempts");
     _attempts = await getAttemptsByAssessment(id);
     if (_attempts != false) {
@@ -122,6 +160,7 @@ class UserInfo extends ChangeNotifier {
 
   //load user assessments using myAssessments service
   loadAssessments() async {
+    await clearAssessment();
     print("Loading assessments");
     _assessments = await getMyAssessments();
     if (_assessments != false) {
@@ -140,6 +179,7 @@ class UserInfo extends ChangeNotifier {
 
   //load assessments of a topic
   loadAssessmentsByTopic() async {
+    await clearAssessment();
     print("Loading assessments");
     _assessments = await getAssessmentsByTopic(_currentTopic.id!);
     if (_assessments != false) {
@@ -161,6 +201,7 @@ class UserInfo extends ChangeNotifier {
 
   //create and set attempt
   startAttempt() async {
+    await clearCurrentAttempt();
     try {
       currentAttempt = await createAttempt(currentAssessment.id);
     } catch (e) {
@@ -176,6 +217,7 @@ class UserInfo extends ChangeNotifier {
 
   //load attempt
   loadAttempt(String id) async {
+    await clearCurrentAttempt();
     currentAttempt = await getAttempt(id);
     notifyListeners();
   }
@@ -186,6 +228,7 @@ class UserInfo extends ChangeNotifier {
     if (result != false) {
       currentAttempt = result;
       notifyListeners();
+      await clearCurrentAttempt();
       return true;
     } else {
       return false;
@@ -194,6 +237,7 @@ class UserInfo extends ChangeNotifier {
 
   //load test from id
   loadTest(String id) async {
+    clearAssessment();
     currentAssessment = await getAssessment(id);
     notifyListeners();
   }
@@ -228,6 +272,7 @@ class UserInfo extends ChangeNotifier {
   }
 
   loadTopics() async {
+    await clearTopics();
     print("Loading topics");
     _topics = await getTopics();
     //loop through topics and print the id of each topic
@@ -249,7 +294,6 @@ class UserInfo extends ChangeNotifier {
   }
 
   void updateTopics(List<Topic> topics) {
-    _topics.clear();
     _topics.addAll(topics);
     notifyListeners();
   }
@@ -262,6 +306,7 @@ class UserInfo extends ChangeNotifier {
   }
 
   loadMaterials() async {
+    await clearMaterials();
     print("Loading materials");
     _materials = await getMaterialsOfTopic(_currentTopic.id!);
     if (_materials != false) {

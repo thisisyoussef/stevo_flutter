@@ -24,24 +24,15 @@ class TopicsDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           //if there are no topics, show a "Start a new topic" button
-          Provider.of<UserInfo>(context, listen: true).topics.isEmpty
-              ? CustomButton(
-                  text: "Start a new topic",
-                  icon: Icons.add,
-                  onPressed: () {
-                    print("Tapped on Start a new topic button");
-                    //add navigation to new screen here
-                  },
-                )
-              : Expanded(
-                  child: ListPage(
-                  topics:
-                      //Get topics from UserInfo provider
-                      Provider.of<UserInfo>(context, listen: true).topics,
-                  onRefresh: () {
-                    Provider.of<UserInfo>(context, listen: false).loadTopics();
-                  },
-                )),
+          Expanded(
+              child: ListPage(
+            topics:
+                //Get topics from UserInfo provider
+                Provider.of<UserInfo>(context, listen: true).topics,
+            onRefresh: () {
+              Provider.of<UserInfo>(context, listen: false).loadTopics();
+            },
+          )),
           Container(
             height: 100,
             child:
@@ -80,14 +71,17 @@ class TopicsDialog extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                Expanded(
-                  child: CustomButton(
-                    text: "Find a topic online",
-                    icon: Icons.search,
-                    onPressed: () {
-                      print("Tapped on Find a topic online button");
-                      //add navigation to new screen here
-                    },
+                Visibility(
+                  visible: false,
+                  child: Expanded(
+                    child: CustomButton(
+                      text: "Find a topic online",
+                      icon: Icons.search,
+                      onPressed: () {
+                        print("Tapped on Find a topic online button");
+                        //add navigation to new screen here
+                      },
+                    ),
                   ),
                 ),
               ],

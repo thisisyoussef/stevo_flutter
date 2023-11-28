@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stevo_flutter/data/app_theme.dart';
+import 'package:stevo_flutter/utils/navigationUtils.dart';
+import 'package:stevo_flutter/widgets/buttons/customButton.dart';
+import 'package:stevo_flutter/widgets/dialogBoxes/topics/createTopicDialog.dart';
 
 import '../../data/userInfo.dart';
 import '../../models/topic.dart';
@@ -82,76 +85,107 @@ class _PathDialogState extends State<PathDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    if (Provider.of<UserInfo>(context, listen: true).topics.length > 0)
+      return Stack(
+        children: [
+          SizedBox(
+            height: 100,
+            width: MediaQuery.of(context).size.width,
+          ),
+          ListView.builder(
+            itemCount:
+                Provider.of<UserInfo>(context, listen: true).topics.length,
+            controller: _scrollController,
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              print("Current topics subjects:"
+                  // the subjects of the last topic:
+                  +
+                  Provider.of<UserInfo>(context, listen: true)
+                      .topics[index]
+                      .subject
+                      .toString());
+              return TopicBlock(
+                topic:
+                    Provider.of<UserInfo>(context, listen: true).topics[index],
+              );
+            },
+          ),
+          Visibility(
+            visible: _showRightButton,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 4.0),
+                child: LongPressButton(
+                  onPressed: _scrollRight,
+                  onLongPress: _scrollToEnd,
+                  child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.white,
+                      onPressed: _scrollRight,
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: appTheme.primaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: _showLeftButton,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 0.0),
+                child: LongPressButton(
+                  onPressed: _scrollLeft,
+                  onLongPress: _scrollToStart,
+                  child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.white,
+                      onPressed: _scrollLeft,
+                      child: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: appTheme.primaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+
+    return Column(
       children: [
-        ListView.builder(
-          itemCount: Provider.of<UserInfo>(context, listen: true).topics.length,
-          controller: _scrollController,
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, int index) {
-            print("Current topics subjects:"
-                // the subjects of the last topic:
-                +
-                Provider.of<UserInfo>(context, listen: true)
-                    .topics[index]
-                    .subject
-                    .toString());
-            return TopicBlock(
-              topic: Provider.of<UserInfo>(context, listen: true).topics[index],
-            );
+        SizedBox(
+          height: 100,
+          width: MediaQuery.of(context).size.width,
+        ),
+        Text("You haven't uploaded a topic yet!"),
+        SizedBox(
+          height: 50,
+        ),
+        CustomButton(
+          text: "Start a new Topic",
+          icon: Icons.add,
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return CreateTopicDialog();
+                });
           },
-        ),
-        Visibility(
-          visible: _showRightButton,
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 4.0),
-              child: LongPressButton(
-                onPressed: _scrollRight,
-                onLongPress: _scrollToEnd,
-                child: Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(30.0),
-                  child: FloatingActionButton(
-                    backgroundColor: Colors.white,
-                    onPressed: _scrollRight,
-                    child: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: appTheme.primaryColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Visibility(
-          visible: _showLeftButton,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 0.0),
-              child: LongPressButton(
-                onPressed: _scrollLeft,
-                onLongPress: _scrollToStart,
-                child: Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(30.0),
-                  child: FloatingActionButton(
-                    backgroundColor: Colors.white,
-                    onPressed: _scrollLeft,
-                    child: Icon(
-                      Icons.arrow_back_ios_rounded,
-                      color: appTheme.primaryColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+        )
       ],
     );
   }

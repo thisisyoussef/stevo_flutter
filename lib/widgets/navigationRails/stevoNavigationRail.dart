@@ -29,16 +29,38 @@ class StevoNavigationRail extends StatelessWidget {
         routes.add(const HomeScreen());
       }
     }
-    return NavigationRail(
-      elevation: 5,
-      useIndicator: false,
-      labelType: NavigationRailLabelType.all,
-      backgroundColor: appTheme.primaryColor,
-      destinations: destinations,
-      selectedIndex: selectedIndex,
-      onDestinationSelected: (int index) {
-        replacementFunction(routes[index], index);
-      },
+    return Container(
+      decoration: BoxDecoration(
+        backgroundBlendMode: BlendMode.colorBurn,
+        borderRadius: BorderRadius.circular(1),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).primaryColor.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).primaryColor.withOpacity(0.8),
+            Theme.of(context).primaryColor.withOpacity(0.6),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: NavigationRail(
+        elevation: 5,
+        useIndicator: false,
+        labelType: NavigationRailLabelType.all,
+        backgroundColor: Colors.transparent,
+        destinations: destinations,
+        selectedIndex: selectedIndex,
+        onDestinationSelected: (int index) {
+          replacementFunction(routes[index], index);
+        },
+      ),
     );
   }
 }

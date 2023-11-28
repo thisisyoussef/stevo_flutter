@@ -27,44 +27,67 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: disabled
-          ? null
-          : () {
-              print('Button Pressed!');
-              if (onPressed != null) {
-                onPressed!();
-              }
-            },
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(100, 25),
-        maximumSize: const Size(300, 100),
-        primary: Theme.of(context).primaryColor,
-        onPrimary: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        elevation: 0,
-        padding: const EdgeInsets.only(
-          left: 5,
-          right: 5,
-          top: 20,
-          bottom: 20,
-        ),
-        textStyle: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon != null) ...[
-            Icon(icon),
-            const SizedBox(width: 10),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).primaryColor.withOpacity(0.8),
+            Theme.of(context).primaryColor.withOpacity(0.6),
           ],
-          Text(text),
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).primaryColor.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
         ],
+      ),
+      child: ElevatedButton(
+        onPressed: disabled
+            ? null
+            : () {
+                print('Button Pressed!');
+                if (onPressed != null) {
+                  onPressed!();
+                }
+              },
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(100, 25),
+          maximumSize: const Size(300, 100),
+          primary: Colors.transparent,
+          onPrimary: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          elevation: 0,
+          padding: const EdgeInsets.only(
+            left: 5,
+            right: 5,
+            top: 20,
+            bottom: 20,
+          ),
+          textStyle: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null) ...[
+                Icon(icon),
+                const SizedBox(width: 10),
+              ],
+              Text(text),
+            ],
+          ),
+        ),
       ),
     );
   }

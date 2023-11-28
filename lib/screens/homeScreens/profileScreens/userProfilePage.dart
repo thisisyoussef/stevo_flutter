@@ -17,19 +17,22 @@ class UserProfilePage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.blue, Colors.green],
+                colors: [
+                  Theme.of(context).primaryColor.withOpacity(0.8),
+                  Theme.of(context).primaryColor.withOpacity(0.6),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Theme.of(context).primaryColor.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 5,
                   offset: Offset(0, 3),
                 ),
               ],
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: Colors.grey.shade300,
                 width: 1,
@@ -515,103 +518,114 @@ class AssessmentHistory extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: Provider.of<UserInfo>(context).getAssessments.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.green],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                      width: 1,
-                    ),
-                  ),
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  padding: EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.assessment,
-                        size: 48,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+            child: Provider.of<UserInfo>(context).getAssessments.isEmpty
+                ? Center(
+                    child: Text(
+                        "You haven't made any quizzes yet! Start learning to view all of your history here!"))
+                : ListView.builder(
+                    itemCount:
+                        Provider.of<UserInfo>(context).getAssessments.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Theme.of(context).primaryColor.withOpacity(0.8),
+                              Theme.of(context).primaryColor.withOpacity(0.6),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          ),
+                        ),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        padding: EdgeInsets.all(16),
+                        child: Row(
                           children: [
-                            Text(
-                              Provider.of<UserInfo>(context)
-                                  .getAssessments[index]
-                                  .name!,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                            Icon(
+                              Icons.assessment,
+                              size: 48,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    Provider.of<UserInfo>(context)
+                                        .getAssessments[index]
+                                        .name!,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Topic: '
+                                    // Provider.of<UserInfo>(context)
+                                    //     .getAssessments[index]
+                                    //     .topic!
+                                    //     .name!,
+                                    ,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Score: ' + '%' + 'Date',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Topic: '
-                              // Provider.of<UserInfo>(context)
-                              //     .getAssessments[index]
-                              //     .topic!
-                              //     .name!,
-                              ,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Score: ' + '%' + 'Date',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
+                            SizedBox(width: 16),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.refresh),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    // Retake assessment
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.arrow_forward),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    // Review assessment
+                                  },
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(width: 16),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.refresh),
-                            color: Colors.white,
-                            onPressed: () {
-                              // Retake assessment
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.arrow_forward),
-                            color: Colors.white,
-                            onPressed: () {
-                              // Review assessment
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),
